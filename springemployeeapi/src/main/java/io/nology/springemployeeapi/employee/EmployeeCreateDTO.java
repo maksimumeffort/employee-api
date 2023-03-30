@@ -4,8 +4,8 @@ public class EmployeeCreateDTO {
     
     private String name;
 
-    public EmployeeCreateDTO() {
-    }
+    // public EmployeeCreateDTO() {
+    // }
 
     public EmployeeCreateDTO(String name) {
         this.name = name;
@@ -13,5 +13,9 @@ public class EmployeeCreateDTO {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
