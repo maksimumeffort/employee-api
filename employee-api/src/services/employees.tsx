@@ -9,7 +9,7 @@ class EmployeeDataService {
   //     return http.get(`/employees/${id}`);
   //   }
 
-  create(data) {
+  create(data: any) {
     return http.post("/employees", data);
   }
 }
