@@ -5,7 +5,7 @@ import "./App.css";
 import axios, { AxiosResponse } from "axios";
 
 type Inputs = {
-  firstName: string;
+  name: string;
   exampleRequired: string;
 };
 
@@ -14,14 +14,20 @@ function App() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    defaultValues: {
+      name: "name",
+    },
+  });
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    // console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = (data: any) => {
+    console.log(data.firstName, "before axios");
+    // event.preventDefault();
     axios
       .post("http://localhost:8080/employees", data)
       .then((res) => {
-        alert(`Employee ${res.data.firstName} successfully added to database`);
+        console.log(res.data, "after axios");
+        alert(`Employee ${res.data.name} successfully added to database`);
       })
       .catch((err) => console.log(err));
   };
@@ -30,7 +36,7 @@ function App() {
     <div className="App">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}
-        <input defaultValue="name" {...register("firstName")} />
+        <input {...register("name")} />
 
         {/* errors will return when field validation fails  */}
         {errors.exampleRequired && <span>This field is required</span>}
