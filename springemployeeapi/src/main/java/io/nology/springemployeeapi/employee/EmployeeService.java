@@ -15,7 +15,7 @@ public class EmployeeService {
     private EmployeeRepository repository;
 
     public Employee create(EmployeeCreateDTO data) {
-        String cleanName = data.getName().toLowerCase();
+        String cleanName = data.getName();
         Employee newEmployee = new Employee(cleanName);
         this.repository.save(newEmployee);
         return newEmployee;
