@@ -16,6 +16,7 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
     <div>
       <h3>id: {employee.id}</h3>
       <p>name: {employee.name}</p>
+      <a>Edit</a>
       <a onClick={handleDelete}>Delete</a>
     </div>
   );
