@@ -34,4 +34,16 @@ public class EmployeeService {
     public Optional<Employee> getById(Long id) {
         return this.repository.findById(id);
     }
+
+    // delete specific employee by id
+    public boolean delete(Long id) {
+        Optional<Employee> maybeEmployee = this.getById(id);
+        if (maybeEmployee.isEmpty()) {
+            return false;
+        }
+        this.repository.delete(maybeEmployee.get());
+        return true;
+    }
+
+
 }
