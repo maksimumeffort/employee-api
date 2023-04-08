@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import ReactDOM from "react-dom";
 import "./App.css";
 import axios, { AxiosResponse } from "axios";
+import { Value } from "sass";
 
 type Inputs = {
   name: string;
@@ -21,7 +22,7 @@ function App() {
   });
 
   const onSubmit: SubmitHandler<Inputs> = (data: any) => {
-    console.log(data.firstName, "before axios");
+    console.log(data, "before axios");
     // event.preventDefault();
     axios
       .post("http://localhost:8080/employees", data)
@@ -36,7 +37,8 @@ function App() {
     <div className="App">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* register your input into the hook by invoking the "register" function */}
-        <input {...register("name")} />
+
+        {<input {...register("name")} />}
 
         {/* errors will return when field validation fails  */}
         {errors.exampleRequired && <span>This field is required</span>}
