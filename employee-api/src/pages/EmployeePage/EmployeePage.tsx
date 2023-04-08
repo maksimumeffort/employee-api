@@ -6,7 +6,6 @@ import { EmployeeEditForm } from "../../containers/EmployeeEditForm/EmployeeEdit
 export const EmployeePage = () => {
   const { id } = useParams();
   const [employeeInfo, setEmployeeInfo] = useState([]);
-  //   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     axios({
@@ -18,7 +17,6 @@ export const EmployeePage = () => {
       },
     })
       .then((res) => {
-        // console.log(res.data, "this is the result");
         const json = JSON.parse(res.data);
         setEmployeeInfo(json);
       })
@@ -28,11 +26,9 @@ export const EmployeePage = () => {
   }, []);
 
   const onSubmit = (data: any) => {
-    console.log(data, "before axios");
     axios
       .patch(`http://localhost:8080/employees/${id}`, data)
       .then((res) => {
-        // console.log(res.data, "after axios");
         alert(`Employee ${res.data.name} successfully added to database`);
       })
       .catch((err) => console.log(err));

@@ -19,8 +19,9 @@ public class EmployeeService {
 
     // create new employee
     public Employee create(EmployeeCreateDTO data) {
-        String cleanName = data.getName();
-        Employee newEmployee = new Employee(cleanName);
+        String cleanName = data.getName().toLowerCase();
+        Employee newEmployee = new Employee(cleanName, 
+        data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), data.getLengthOfService(), data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
         this.repository.save(newEmployee);
         return newEmployee;
     }
@@ -54,7 +55,19 @@ public class EmployeeService {
         
         Employee employeeToUpdate = maybeEmployee.get();
 
+        // setting new values
         employeeToUpdate.setName(data.getName());
+        employeeToUpdate.setMiddleName(data.getMiddleName());
+        employeeToUpdate.setLastName(data.getLastName());
+        employeeToUpdate.setContractType(data.getContractType());
+        employeeToUpdate.setWorkType(data.getWorkType());
+        employeeToUpdate.setLengthOfService(data.getLengthOfService());
+        employeeToUpdate.setEmail(data.getEmail());
+        employeeToUpdate.setMobile(data.getMobile());
+        employeeToUpdate.setAddress(data.getAddress());
+        employeeToUpdate.setHoursPerWeek(data.getHoursPerWeek());
+        
+        // saving new values
         this.repository.save(employeeToUpdate);
         return employeeToUpdate;
     }
