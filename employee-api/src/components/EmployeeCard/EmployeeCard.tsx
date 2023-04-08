@@ -1,4 +1,5 @@
 import axios from "axios";
+import { NavLink } from "react-router-dom";
 
 export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
   const handleDelete = () => {
@@ -16,7 +17,7 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
     <div>
       <h3>id: {employee.id}</h3>
       <p>name: {employee.name}</p>
-      <a>Edit</a>
+      <NavLink to={`/${employee.id}`}>Edit</NavLink>{" "}
       <a onClick={handleDelete}>Delete</a>
     </div>
   );
