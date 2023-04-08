@@ -1,5 +1,7 @@
 package io.nology.springemployeeapi.employee;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,4 +22,10 @@ public class EmployeeService {
         this.repository.save(newEmployee);
         return newEmployee;
     }
+
+    public List<Employee> getAll() {
+        return this.repository.findAll();
+    }
+
+    
 }
