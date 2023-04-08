@@ -1,6 +1,7 @@
 package io.nology.springemployeeapi.employee;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -16,6 +17,7 @@ public class EmployeeService {
     @Autowired 
     private EmployeeRepository repository;
 
+    // create new employee
     public Employee create(EmployeeCreateDTO data) {
         String cleanName = data.getName();
         Employee newEmployee = new Employee(cleanName);
@@ -23,9 +25,13 @@ public class EmployeeService {
         return newEmployee;
     }
 
+    // get all employees
     public List<Employee> getAll() {
         return this.repository.findAll();
     }
 
-    
+    // get specific employee by id
+    public Optional<Employee> getById(Long id) {
+        return this.repository.findById(id);
+    }
 }
