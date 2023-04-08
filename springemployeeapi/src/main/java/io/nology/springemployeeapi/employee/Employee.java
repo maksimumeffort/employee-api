@@ -27,6 +27,10 @@ public class Employee {
         return name;
     }
 
+    public String setName( String name) {
+        return this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

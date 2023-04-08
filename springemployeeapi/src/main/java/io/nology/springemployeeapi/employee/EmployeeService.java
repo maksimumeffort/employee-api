@@ -45,5 +45,19 @@ public class EmployeeService {
         return true;
     }
 
+    // update specific employee by id
+    public Employee update(Long id, EmployeeCreateDTO data) {
+        Optional<Employee> maybeEmployee = this.getById(id);
+        if (maybeEmployee.isEmpty()) {
+            this.create(data);
+        }
+        
+        Employee employeeToUpdate = maybeEmployee.get();
+
+        employeeToUpdate.setName(data.getName());
+        this.repository.save(employeeToUpdate);
+        return employeeToUpdate;
+    }
+
 
 }
