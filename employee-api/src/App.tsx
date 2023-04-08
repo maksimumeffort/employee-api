@@ -1,23 +1,17 @@
 import { Routes, Route, Link, BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
 import styles from "./App.module.scss";
-import EmployeeList from "./containers/EmployeeList/EmployeeList";
+import { HomePage } from "./pages/HomePage/HomePage";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/employees" />
-        <Route path="/employees/:id" />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/new" />
+        <Route path="/:id" />
       </Routes>
     </BrowserRouter>
-    // <div className={styles.App}>
-    //   <button>Add Employee</button>
-
-    //   <section className={styles.List}>
-    //     <EmployeeList />
-    //   </section>
-    // </div>
   );
 };
 
