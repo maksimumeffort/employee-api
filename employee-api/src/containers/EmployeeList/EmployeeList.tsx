@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 
 export const EmployeeList = () => {
   const [employeesInDb, setEmployeesInDb] = useState([]);
+  const [deleteEmployee, setDeleteEmployee] = useState(false);
 
   useEffect(() => {
     axios({
@@ -15,15 +16,19 @@ export const EmployeeList = () => {
       const json = JSON.parse(res.data);
       setEmployeesInDb(json);
     });
-  }, []);
-
-  console.log(`${typeof employeesInDb} employees in database`);
+  }, [deleteEmployee]);
 
   return (
     <>
       <div className={"styles"}>
         {employeesInDb.map((employee: any) => {
-          return <EmployeeCard key={employee.id} employee={employee} />;
+          return (
+            <EmployeeCard
+              key={employee.id}
+              employee={employee}
+              setDeleteEmployee={setDeleteEmployee}
+            />
+          );
         })}
       </div>
     </>
