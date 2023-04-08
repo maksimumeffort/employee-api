@@ -8,11 +8,13 @@ import { EmployeePage } from "./pages/EmployeePage/EmployeePage";
 const App = () => {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/new" element={<NewEmployeePage />} />
-        <Route path="/:id" element={<EmployeePage />} />
-      </Routes>
+      <div className={styles.App}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/new" element={<NewEmployeePage />} />
+          <Route path="/:id" element={<EmployeePage />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 };

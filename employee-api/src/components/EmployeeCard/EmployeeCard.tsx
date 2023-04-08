@@ -1,5 +1,6 @@
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import styles from "./EmployeeCard.module.scss";
 
 export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
   const handleDelete = () => {
@@ -14,11 +15,25 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
   };
 
   return (
-    <div>
-      <h3>id: {employee.id}</h3>
-      <p>name: {employee.name}</p>
-      <NavLink to={`/${employee.id}`}>Edit</NavLink>{" "}
-      <a onClick={handleDelete}>Delete</a>
+    <div className={styles.Card}>
+      <section>
+        <h3>
+          {employee.name} {employee.middleName} {employee.lastName}
+        </h3>
+        <p>
+          {employee.workType} - {employee.lengthOfService}yrs{" "}
+        </p>
+        <p>{employee.email}</p>
+      </section>
+
+      <section className={styles.LinksSection}>
+        <NavLink to={`/${employee.id}`} className={styles.LinksSectionEdit}>
+          Edit
+        </NavLink>{" "}
+        <a href="" onClick={handleDelete} className={styles.LinksSectionRemove}>
+          Remove
+        </a>
+      </section>
     </div>
   );
 };
