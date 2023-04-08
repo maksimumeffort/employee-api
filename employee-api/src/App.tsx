@@ -1,16 +1,19 @@
+
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Routes, Route, Link } from "react-router-dom";
 import ReactDOM from "react-dom";
-import "./App.css";
+import styles from "./App.module.scss";
 import axios, { AxiosResponse } from "axios";
 import { Value } from "sass";
+import EmployeeList from "./containers/EmployeeList/EmployeeList";
 
 type Inputs = {
   name: string;
   exampleRequired: string;
 };
 
-function App() {
+const App = () => {
+
   const {
     register,
     handleSubmit,
@@ -34,19 +37,25 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* register your input into the hook by invoking the "register" function */}
+    <div className={styles.App}>
+      <section className={styles.AddEmployee}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* register your input into the hook by invoking the "register" function */}
 
-        {<input {...register("name")} />}
+          {<input {...register("name")} />}
 
-        {/* errors will return when field validation fails  */}
-        {errors.exampleRequired && <span>This field is required</span>}
+          {/* errors will return when field validation fails  */}
+          {errors.exampleRequired && <span>This field is required</span>}
 
-        <input type="submit" />
-      </form>
+          <input type="submit" />
+        </form>
+      </section>
+
+      <section className={styles.List}>
+        <EmployeeList />
+      </section>
     </div>
   );
-}
+};
 
 export default App;
