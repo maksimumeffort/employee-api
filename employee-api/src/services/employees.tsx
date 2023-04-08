@@ -1,17 +1,17 @@
-import http from "../http-common";
+// import http from "../http-common";
 
-class EmployeeDataService {
-  getAll() {
-    return http.get("/employees");
-  }
+// class EmployeeDataService {
+//   getAll() {
+//     return http.get("/employees");
+//   }
 
-  //   get(id) {
-  //     return http.get(`/employees/${id}`);
-  //   }
+//   get(id: number) {
+//     return http.get(`/employees/${id}`);
+//   }
 
-  create(data: any) {
-    return http.post("/employees", data);
-  }
-}
+//   create(data: any) {
+//     return http.post("/employees", data);
+//   }
+// }
 
-export default new EmployeeDataService();
+// export default new EmployeeDataService();
