@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { EmployeeEditForm } from "../../containers/EmployeeEditForm/EmployeeEditForm";
+import { EmployeeForm } from "../../containers/EmployeeForm/EmployeeForm";
 
 export const EmployeePage = () => {
   const { id } = useParams();
@@ -39,7 +39,7 @@ export const EmployeePage = () => {
   return (
     <>
       <div>
-        <EmployeeEditForm employee={employeeInfo} onSubmit={onSubmit} />
+        <EmployeeForm employee={employeeInfo} onSubmit={onSubmit} />
       </div>
     </>
   );

@@ -1,5 +1,5 @@
 .Card {
-  border: 1px solid green;
+  border-bottom: 1px solid lightgray;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,6 +7,7 @@
 
 .LinksSection {
   height: 125px;
+  margin-top: 10px;
   & > a {
     background-color: rgb(251, 253, 253);
     color: rgb(45, 82, 153);

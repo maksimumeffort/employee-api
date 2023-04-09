@@ -3,7 +3,8 @@ import { NavLink } from "react-router-dom";
 import styles from "./EmployeeCard.module.scss";
 
 export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
-  const handleDelete = () => {
+  const handleDelete = (event: any) => {
+    event.preventDefault();
     axios({
       method: "delete",
       url: `http://localhost:8080/employees/${employee.id}`,
@@ -30,7 +31,7 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
         <NavLink to={`/${employee.id}`} className={styles.LinksSectionEdit}>
           Edit
         </NavLink>{" "}
-        <a href="" onClick={handleDelete} className={styles.LinksSectionRemove}>
+        <a href="" onClick={handleDelete}>
           Remove
         </a>
       </section>
