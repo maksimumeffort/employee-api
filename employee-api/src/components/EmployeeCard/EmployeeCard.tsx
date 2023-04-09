@@ -30,7 +30,7 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
       <section className={styles.LinksSection}>
         <NavLink to={`/${employee.id}`} className={styles.LinksSectionEdit}>
           Edit
-        </NavLink>{" "}
+        </NavLink>
         <a href="" onClick={handleDelete}>
           Remove
         </a>
