@@ -16,7 +16,7 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
 
   return (
     <div className={styles.Card}>
-      <section>
+      <section className={styles.InfoSection}>
         <h3>
           {employee.name} {employee.middleName} {employee.lastName}
         </h3>
