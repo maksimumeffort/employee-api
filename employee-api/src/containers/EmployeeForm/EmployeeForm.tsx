@@ -1,7 +1,10 @@
 import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
+import { Input, Radio, Space } from "antd";
+import type { RadioChangeEvent } from "antd";
 import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
+import { useState } from "react";
 
 type Inputs = {
   name: string;
@@ -32,25 +35,26 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
         <NavLink to={`/`}>&#10094; Back</NavLink>
         <h1>Employee details</h1>
       </section>
+
       <form className={styles.EmployeeForm}>
         <section className={styles.EmployeeFormPersonal}>
           <h2>Personal Information</h2>
-          {<label>First Name</label>}
+          <h5>First Name</h5>
           {<input defaultValue={employee.name} {...register("name")} />}
-          {<label>Middle Name</label>}
+          <h5>Middle Name</h5>
           {
             <input
               defaultValue={employee.middleName}
               {...register("middleName")}
             />
           }
-          {<label>Last Name</label>}
+          <h5>Last Name</h5>
           {<input defaultValue={employee.lastName} {...register("lastName")} />}
         </section>
 
         <section className={styles.EmployeeFormContact}>
           <h2>Contact Details</h2>
-          {<label>Email</label>}
+          <h5>Email address</h5>
           {
             <input
               defaultValue={employee.email}
@@ -58,7 +62,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               className={styles.EmployeeFormContactEmail}
             />
           }
-          {<label>Mobile</label>}
+          <h5>Mobile number</h5>
           {
             <input
               defaultValue={employee.mobile}
@@ -66,7 +70,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               className={styles.EmployeeFormContactMobile}
             />
           }
-          {<label>Address</label>}
+          <h5>Residential address</h5>
           {
             <input
               defaultValue={employee.address}
@@ -78,38 +82,50 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
         <section className={styles.EmployeeFormStatus}>
           <h2>Employee Status</h2>
-          <Controller
-            name="select"
-            control={control}
-            render={({ field }) => (
-              <Select
-                {...field}
-                options={[
-                  { value: "chocolate", label: "Chocolate" },
-                  { value: "strawberry", label: "Strawberry" },
-                  { value: "vanilla", label: "Vanilla" },
-                ]}
-              />
-            )}
-          />
-          {<label>Contract Type</label>}
+          <h5>What is contract type?</h5>
           {
-            <input
-              defaultValue={employee.contractType}
-              {...register("contractType")}
+            <Controller
+              control={control}
+              name="contractType"
+              render={({ field: { onChange, value } }) => (
+                <Radio.Group
+                  value={value || employee.contractType}
+                  onChange={(e) => onChange(e.target.value)}
+                >
+                  <Space direction="vertical">
+                    <Radio value={"permanent"}>Permanent</Radio>
+                    <Radio value={"contract"}>Contract</Radio>
+                  </Space>
+                </Radio.Group>
+              )}
             />
           }
-          {<label>Length Of Service</label>}
+          <h5>Start date</h5>
           {
             <input
               defaultValue={employee.lengthOfService}
               {...register("lengthOfService")}
             />
           }
-          {<label>Work Type</label>}
-          {<input defaultValue={employee.workType} {...register("workType")} />}
-
-          {<label>Hours Per Week</label>}
+          <h5>Is this on a full-time or part-time basis?</h5>
+          {
+            <Controller
+              control={control}
+              name="workType"
+              render={({ field: { onChange, value } }) => (
+                <Radio.Group
+                  value={value || employee.workType}
+                  onChange={(e) => onChange(e.target.value)}
+                >
+                  <Space direction="vertical">
+                    <Radio value={"full-time"}>Full-time</Radio>
+                    <Radio value={"part-time"}>Part-time</Radio>
+                  </Space>
+                </Radio.Group>
+              )}
+            />
+          }
+          <h5>Hours Per Week</h5>
           {
             <input
               defaultValue={employee.hoursPerWeek}
