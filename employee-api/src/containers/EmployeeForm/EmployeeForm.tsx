@@ -12,7 +12,8 @@ type Inputs = {
   lastName: string;
   contractType: string;
   workType: string;
-  lengthOfService: number;
+  startDate: string;
+  finishDate: string;
   email: string;
   mobile: string;
   address: string;
@@ -104,7 +105,14 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           {
             <input
               defaultValue={employee.lengthOfService}
-              {...register("lengthOfService")}
+              {...register("startDate")}
+            />
+          }
+          <h5>Finish date</h5>
+          {
+            <input
+              defaultValue={employee.lengthOfService}
+              {...register("finishDate")}
             />
           }
           <h5>Is this on a full-time or part-time basis?</h5>

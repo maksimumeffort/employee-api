@@ -9,7 +9,8 @@ public class EmployeeCreateDTO {
     private String lastName;
     private String contractType;
     private String workType;
-    private int lengthOfService;
+    private String startDate;
+    private String finishDate;
     private String email;
     private String mobile;
     private String address;
@@ -21,13 +22,14 @@ public class EmployeeCreateDTO {
     }
 
     public EmployeeCreateDTO(String name, String middleName, String lastName, String contractType,
-     String workType, int lengthOfService, String email, String mobile, String address, int hoursPerWeek) {
+     String workType, String startDate, String finishDate, String email, String mobile, String address, int hoursPerWeek) {
         this.name = name;
         this.middleName = middleName;
         this.lastName = lastName;
         this.contractType = contractType;
         this.workType = workType;
-        this.lengthOfService = lengthOfService;
+        this.startDate = startDate;
+        this.finishDate = finishDate;
         this.email = email;
         this.mobile = mobile;
         this.address = address;
@@ -77,12 +79,20 @@ public class EmployeeCreateDTO {
         this.workType = workType;
     }
 
-    public int getLengthOfService() {
-        return lengthOfService;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setLengthOfService(int lengthOfService) {
-        this.lengthOfService = lengthOfService;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(String finishDate) {
+        this.finishDate = finishDate;
     }
 
     public String getEmail() {

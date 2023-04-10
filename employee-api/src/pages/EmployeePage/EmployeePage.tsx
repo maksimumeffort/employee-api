@@ -27,7 +27,7 @@ export const EmployeePage = () => {
 
   const onSubmit = (data: any) => {
     axios
-      .patch(`http://localhost:8080/employees/${id}`, data)
+      .put(`http://localhost:8080/employees/${id}`, data)
       .then((res) => {
         alert(`Employee ${res.data.name} successfully added to database`);
       })

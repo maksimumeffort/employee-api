@@ -1,10 +1,10 @@
 package io.nology.springemployeeapi;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.stream.Collectors;
+// import java.util.Arrays;
+// import java.util.Collections;
+// import java.util.stream.Collectors;
+// import org.apache.catalina.filters.CorsFilter;
 
-import org.apache.catalina.filters.CorsFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 // import org.springframework.data.jpa.repository.config.EnableJpaRepositories;

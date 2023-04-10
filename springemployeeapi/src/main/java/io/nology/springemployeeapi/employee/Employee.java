@@ -30,9 +30,12 @@ public class Employee {
 
     @Column
     private String workType;
-    
+
     @Column
-    private int lengthOfService;
+    private String startDate;
+
+    @Column
+    private String finishDate;
 
     @Column
     private String email;
@@ -51,13 +54,14 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String middleName, String lastName, String contractType, String workType, Integer lengthOfService, String email, String mobile, String address, Integer hoursPerWeek) {
+    public Employee(String name, String middleName, String lastName, String contractType, String workType, String startDate, String finishDate, String email, String mobile, String address, Integer hoursPerWeek) {
         this.name = name;
         this.middleName = middleName;
         this.lastName = lastName;
         this.contractType = contractType;
         this.workType = workType;
-        this.lengthOfService = lengthOfService;
+        this.startDate = startDate;
+        this.finishDate = finishDate;
         this.email = email;
         this.mobile = mobile;
         this.address = address;
@@ -110,14 +114,6 @@ public class Employee {
         this.workType = workType;
     }
 
-    public Integer getLengthOfService() {
-        return lengthOfService;
-    }
-
-    public void setLengthOfService(Integer lengthOfService) {
-        this.lengthOfService = lengthOfService;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -149,4 +145,22 @@ public class Employee {
     public void setHoursPerWeek(Integer hoursPerWeek) {
         this.hoursPerWeek = hoursPerWeek;
     }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(String finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    
 }
