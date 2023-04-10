@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { EmployeeForm } from "../../containers/EmployeeForm/EmployeeForm";
+import { EmployeeForm } from "../../components/EmployeeForm/EmployeeForm";
 
 export const EmployeePage = () => {
   const { id } = useParams();

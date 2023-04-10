@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
-import { EmployeeForm } from "../../containers/EmployeeForm/EmployeeForm";
+import { EmployeeForm } from "../../components/EmployeeForm/EmployeeForm";
 
 export const NewEmployeePage = () => {
   const employeeInfo: any = [];

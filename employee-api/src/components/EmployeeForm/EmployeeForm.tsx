@@ -1,7 +1,7 @@
 import { useForm, Controller } from "react-hook-form";
 import { Input, Select, Radio, Space } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { useState } from "react";
 
@@ -31,8 +31,15 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     formState: { errors },
   } = useForm<Inputs>({});
 
+  let navigate = useNavigate();
+  const goHome = () => {
+    navigate("/");
+  };
+
   const [contValue, setContValue] = useState("permanent");
   const [workValue, setworkValue] = useState("full-time");
+  const [startDateValue, setStartDateValue] = useState([]);
+  const [finishDateValue, setFinishDateValue] = useState([]);
 
   return (
     <div>
