@@ -10,8 +10,12 @@ public class EmployeeCreateDTO {
     private String lastName;
     private String contractType;
     private String workType;
-    private String startDate;
-    private String finishDate;
+    private String startDay;
+    private String startMonth;
+    private String startYear;
+    private String finishDay;
+    private String finishMonth;
+    private String finishYear;
     private String email;
     private String mobile;
     private String address;
@@ -23,14 +27,18 @@ public class EmployeeCreateDTO {
     }
 
     public EmployeeCreateDTO(String name, String middleName, String lastName, String contractType,
-     String workType, String startDate, String finishDate, String email, String mobile, String address, int hoursPerWeek) {
+     String workType, String startDay, String startMonth, String startYear,  String finishDay, String finishMonth, String finishYear, String email, String mobile, String address, int hoursPerWeek) {
         this.name = name;
         this.middleName = middleName;
         this.lastName = lastName;
         this.contractType = contractType;
         this.workType = workType;
-        this.startDate = startDate;
-        this.finishDate = finishDate;
+        this.startDay = startDay;
+        this.startMonth = startMonth;
+        this.startYear = startYear;
+        this.finishDay = finishDay;
+        this.finishMonth = finishMonth;
+        this.finishYear = finishYear;
         this.email = email;
         this.mobile = mobile;
         this.address = address;
@@ -80,20 +88,52 @@ public class EmployeeCreateDTO {
         this.workType = workType;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getStartDay() {
+        return startDay;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    public void setStartDay(String startDay) {
+        this.startDay = startDay;
     }
 
-    public String getFinishDate() {
-        return finishDate;
+    public String getFinishDay() {
+        return finishDay;
     }
 
-    public void setFinishDate(String finishDate) {
-        this.finishDate = finishDate;
+    public void setFinishDay(String finishDay) {
+        this.finishDay = finishDay;
+    }    
+
+    public String getStartMonth() {
+        return startMonth;
+    }
+
+    public void setStartMonth(String startMonth) {
+        this.startMonth = startMonth;
+    }
+
+    public String getStartYear() {
+        return startYear;
+    }
+
+    public void setStartYear(String startYear) {
+        this.startYear = startYear;
+    }
+
+    public String getFinishMonth() {
+        return finishMonth;
+    }
+
+    public void setFinishMonth(String finishMonth) {
+        this.finishMonth = finishMonth;
+    }
+
+    public String getFinishYear() {
+        return finishYear;
+    }
+
+    public void setFinishYear(String finishYear) {
+        this.finishYear = finishYear;
     }
 
     public String getEmail() {
