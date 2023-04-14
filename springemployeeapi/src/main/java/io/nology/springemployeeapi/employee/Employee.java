@@ -34,10 +34,10 @@ public class Employee {
     @Column
     private String workType;
 
-    @Column
+    @Column(name="start_date", columnDefinition = "DATE")
     private LocalDate startDate;
 
-    @Column
+    @Column(name="finish_date", columnDefinition = "DATE")
     private LocalDate finishDate;
 
     @Column

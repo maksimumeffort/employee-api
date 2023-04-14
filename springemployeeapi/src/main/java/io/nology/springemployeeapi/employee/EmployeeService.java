@@ -22,8 +22,8 @@ public class EmployeeService {
     public Employee create(EmployeeCreateDTO data) {
         String cleanName = data.getName().toLowerCase();
         
-        LocalDate startDate = LocalDate.parse("");
-        LocalDate finishDate = LocalDate.parse("");
+        LocalDate startDate = LocalDate.parse(data.getStartDate());
+        LocalDate finishDate = LocalDate.parse(data.getFinishDate());
 
         Employee newEmployee = new Employee(cleanName, 
         data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), startDate, finishDate, data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
@@ -58,8 +58,8 @@ public class EmployeeService {
             this.create(data);
         }
 
-        LocalDate startDate = LocalDate.parse("");
-        LocalDate finishDate = LocalDate.parse("");
+        LocalDate startDate = LocalDate.parse(data.getStartDate());
+        LocalDate finishDate = LocalDate.parse(data.getFinishDate());
         
         Employee employeeToUpdate = maybeEmployee.get();
 

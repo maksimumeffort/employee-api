@@ -28,12 +28,6 @@ public class EmployeeController {
     // create employee
     @PostMapping
     public ResponseEntity<Employee> create(@RequestBody EmployeeCreateDTO data) {
-        // System.out.println("____________");
-        // System.out.println(data);
-        // System.out.println(data.getName());
-        // System.out.println(data.getStartDate());
-        // System.out.println(data.getFinishDate());
-        // System.out.println("____________");
         Employee createdEmployee = this.service.create(data);
         // System.out.println("____________");
         return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
