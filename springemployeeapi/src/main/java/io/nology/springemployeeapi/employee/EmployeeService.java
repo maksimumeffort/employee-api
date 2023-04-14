@@ -1,5 +1,6 @@
 package io.nology.springemployeeapi.employee;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,8 +21,12 @@ public class EmployeeService {
     // create new employee
     public Employee create(EmployeeCreateDTO data) {
         String cleanName = data.getName().toLowerCase();
+        
+        LocalDate startDate = LocalDate.parse(data.getStartDate());
+        LocalDate finishDate = LocalDate.parse(data.getFinishDate());
+
         Employee newEmployee = new Employee(cleanName, 
-        data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), data.getStartDate(), data.getFinishDate(), data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
+        data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), startDate, finishDate, data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
         this.repository.save(newEmployee);
         return newEmployee;
     }
@@ -52,6 +57,9 @@ public class EmployeeService {
         if (maybeEmployee.isEmpty()) {
             this.create(data);
         }
+
+        LocalDate startDate = LocalDate.parse(data.getStartDate());
+        LocalDate finishDate = LocalDate.parse(data.getFinishDate());
         
         Employee employeeToUpdate = maybeEmployee.get();
 
@@ -61,8 +69,8 @@ public class EmployeeService {
         employeeToUpdate.setLastName(data.getLastName());
         employeeToUpdate.setContractType(data.getContractType());
         employeeToUpdate.setWorkType(data.getWorkType());
-        employeeToUpdate.setStartDate(data.getStartDate());
-        employeeToUpdate.setFinishDate(data.getFinishDate());
+        employeeToUpdate.setStartDate(startDate);
+        employeeToUpdate.setFinishDate(finishDate);
         employeeToUpdate.setEmail(data.getEmail());
         employeeToUpdate.setMobile(data.getMobile());
         employeeToUpdate.setAddress(data.getAddress());

@@ -3,6 +3,9 @@ package io.nology.springemployeeapi.employee;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 
@@ -32,10 +35,10 @@ public class Employee {
     private String workType;
 
     @Column
-    private String startDate;
+    private LocalDate startDate;
 
     @Column
-    private String finishDate;
+    private LocalDate finishDate;
 
     @Column
     private String email;
@@ -54,7 +57,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(String name, String middleName, String lastName, String contractType, String workType, String startDate, String finishDate, String email, String mobile, String address, Integer hoursPerWeek) {
+    public Employee(String name, String middleName, String lastName, String contractType, String workType, LocalDate startDate, LocalDate finishDate, String email, String mobile, String address, Integer hoursPerWeek) {
         this.name = name;
         this.middleName = middleName;
         this.lastName = lastName;
@@ -146,19 +149,19 @@ public class Employee {
         this.hoursPerWeek = hoursPerWeek;
     }
 
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public String getFinishDate() {
+    public LocalDate getFinishDate() {
         return finishDate;
     }
 
-    public void setFinishDate(String finishDate) {
+    public void setFinishDate(LocalDate finishDate) {
         this.finishDate = finishDate;
     }
 

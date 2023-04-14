@@ -122,7 +122,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 {...register("startDate")}
               />
             }
-            {
+            {/* {
               <Controller
                 control={control}
                 name="startDate"
@@ -153,7 +153,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 defaultValue={employee.startDate}
                 {...register("startDate")}
               />
-            }
+            } */}
           </section>
 
           <h5>Finish date</h5>
@@ -164,7 +164,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 {...register("finishDate")}
               />
             }
-            {
+            {/* {
               <Controller
                 control={control}
                 name="finishDate"
@@ -195,7 +195,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 defaultValue={employee.lengthOfService}
                 {...register("finishDate")}
               />
-            }
+            } */}
           </section>
 
           <h5>Is this on a full-time or part-time basis?</h5>
