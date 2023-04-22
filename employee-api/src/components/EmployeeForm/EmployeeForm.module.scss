@@ -39,6 +39,12 @@
       width: 500px;
     }
   }
+  &Ongoing {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-around;
+  }
   &Status {
     display: flex;
     flex-direction: column;

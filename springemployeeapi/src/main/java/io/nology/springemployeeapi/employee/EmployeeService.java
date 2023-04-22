@@ -22,11 +22,11 @@ public class EmployeeService {
     public Employee create(EmployeeCreateDTO data) {
         String cleanName = data.getName().toLowerCase();
         
-        LocalDate startDate = LocalDate.parse(data.getStartDate());
-        LocalDate finishDate = LocalDate.parse(data.getFinishDate());
+        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        LocalDate finishDate = LocalDate.parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
 
         Employee newEmployee = new Employee(cleanName, 
-        data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), startDate, finishDate, data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
+        data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), startDate, finishDate, data.getIsOngoing(), data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
         this.repository.save(newEmployee);
         return newEmployee;
     }
@@ -58,8 +58,8 @@ public class EmployeeService {
             this.create(data);
         }
 
-        LocalDate startDate = LocalDate.parse(data.getStartDate());
-        LocalDate finishDate = LocalDate.parse(data.getFinishDate());
+        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        LocalDate finishDate = LocalDate.parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
         
         Employee employeeToUpdate = maybeEmployee.get();
 
@@ -71,6 +71,7 @@ public class EmployeeService {
         employeeToUpdate.setWorkType(data.getWorkType());
         employeeToUpdate.setStartDate(startDate);
         employeeToUpdate.setFinishDate(finishDate);
+        employeeToUpdate.setOngoing(data.getIsOngoing());
         employeeToUpdate.setEmail(data.getEmail());
         employeeToUpdate.setMobile(data.getMobile());
         employeeToUpdate.setAddress(data.getAddress());

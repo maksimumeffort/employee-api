@@ -29,6 +29,7 @@ export const EmployeePage = () => {
     axios
       .put(`http://localhost:8080/employees/${id}`, data)
       .then((res) => {
+        console.log(res.data)
         alert(`Employee ${res.data.name} successfully added to database`);
       })
       .catch((err) => console.log(err));

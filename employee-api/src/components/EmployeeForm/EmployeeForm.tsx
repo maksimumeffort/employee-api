@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import { Input, Select, Radio, Space } from "antd";
+import { Input, Select, Radio, Space, Checkbox } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
@@ -11,8 +11,13 @@ type Inputs = {
   lastName: string;
   contractType: string;
   workType: string;
-  startDate: string;
-  finishDate: string;
+  startDay: string;
+  startMonth: string;
+  startYear: string;
+  finishDay: string;
+  finishMonth: string;
+  finishYear: string;
+  isOngoing: boolean;
   email: string;
   mobile: string;
   address: string;
@@ -29,17 +34,29 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({});
+  } = useForm<Inputs>({
+    defaultValues: {
+      isOngoing: false,
+      contractType: "permanent",
+      workType: "full-time",
+    },
+  });
 
   let navigate = useNavigate();
   const goHome = () => {
     navigate("/");
   };
 
-  const [contValue, setContValue] = useState("permanent");
-  const [workValue, setworkValue] = useState("full-time");
-  const [startDateValue, setStartDateValue] = useState([]);
-  const [finishDateValue, setFinishDateValue] = useState([]);
+  let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
+  let finishDateArray = employee.finishDate
+    ? employee.finishDate.split("-")
+    : [];
+
+  let isOngoing = employee.isOngoing ? true : false;
+
+  //TODO1: finish date is optional
+  //TODO2: listen to Calum
+  //TODO3: if Ongoing is selected ? no fiish date required : finish date required
 
   return (
     <div>
@@ -101,10 +118,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               name="contractType"
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
-                  value={contValue || employee.contractType}
-                  onChange={(e) =>
-                    onChange(e.target.value, setContValue(e.target.value))
-                  }
+                  value={employee.contractType}
+                  onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
                     <Radio value={"permanent"}>Permanent</Radio>
@@ -118,84 +133,109 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <section>
             {
               <input
-                defaultValue={employee.startDate}
-                {...register("startDate")}
+                defaultValue={startDateArray[2]}
+                {...register("startDay")}
+              />
+            }
+            {
+              <input
+                defaultValue={startDateArray[1]}
+                {...register("startMonth")}
               />
             }
             {/* {
               <Controller
                 control={control}
-                name="startDate"
+                name="startMonth"
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={"July" || employee.startDate}
+                    defaultValue={startDateArray[1]}
                     className={styles.DateSelect}
                   >
-                    <Option value="january">January</Option>
-                    <Option value="february">February</Option>
-                    <Option value="march">March</Option>
-                    <Option value="april">April</Option>
-                    <Option value="may">May</Option>
-                    <Option value="june">June</Option>
-                    <Option value="july">July</Option>
-                    <Option value="august">August</Option>
-                    <Option value="september">September</Option>
-                    <Option value="october">October</Option>
-                    <Option value="november">November</Option>
-                    <Option value="december">December</Option>
+                    <Option value="01">January</Option>
+                    <Option value="02">February</Option>
+                    <Option value="03">March</Option>
+                    <Option value="04">April</Option>
+                    <Option value="05">May</Option>
+                    <Option value="06">June</Option>
+                    <Option value="07">July</Option>
+                    <Option value="08">August</Option>
+                    <Option value="9">September</Option>
+                    <Option value="10">October</Option>
+                    <Option value="11">November</Option>
+                    <Option value="12">December</Option>
                   </Select>
                 )}
               />
-            }
+            } */}
+
             {
               <input
-                defaultValue={employee.startDate}
-                {...register("startDate")}
+                defaultValue={startDateArray[0]}
+                {...register("startYear")}
               />
-            } */}
+            }
           </section>
 
           <h5>Finish date</h5>
           <section>
             {
               <input
-                defaultValue={employee.lengthOfService}
-                {...register("finishDate")}
+                defaultValue={finishDateArray[2]}
+                {...register("finishDay")}
               />
             }
-            {/* {
+            {
               <Controller
                 control={control}
-                name="finishDate"
+                name="finishMonth"
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={"July" || employee.startDate}
+                    defaultValue={finishDateArray ? finishDateArray[1] : "01"}
                     className={styles.DateSelect}
                   >
-                    <Option value="january">January</Option>
-                    <Option value="february">February</Option>
-                    <Option value="march">March</Option>
-                    <Option value="april">April</Option>
-                    <Option value="may">May</Option>
-                    <Option value="june">June</Option>
-                    <Option value="july">July</Option>
-                    <Option value="august">August</Option>
-                    <Option value="september">September</Option>
-                    <Option value="october">October</Option>
-                    <Option value="november">November</Option>
-                    <Option value="december">December</Option>
+                    <Option value="01">January</Option>
+                    <Option value="02">February</Option>
+                    <Option value="03">March</Option>
+                    <Option value="04">April</Option>
+                    <Option value="05">May</Option>
+                    <Option value="06">June</Option>
+                    <Option value="07">July</Option>
+                    <Option value="08">August</Option>
+                    <Option value="9">September</Option>
+                    <Option value="10">October</Option>
+                    <Option value="11">November</Option>
+                    <Option value="12">December</Option>
                   </Select>
                 )}
               />
             }
             {
               <input
-                defaultValue={employee.lengthOfService}
-                {...register("finishDate")}
+                defaultValue={finishDateArray[0]}
+                {...register("finishYear")}
               />
-            } */}
+            }
+          </section>
+
+          <section className={styles.EmployeeFormOngoing}>
+            {
+              <Controller
+                control={control}
+                name="isOngoing"
+                render={({ field: { value, onChange } }) => (
+                  <Checkbox
+                    checked={value}
+                    onChange={(e) => {
+                      onChange(e.target.checked);
+                    }}
+                  />
+                )}
+              />
+            }
+            <p>Ongoing</p>
           </section>
 
           <h5>Is this on a full-time or part-time basis?</h5>
@@ -205,10 +245,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               name="workType"
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
-                  value={workValue || employee.workType}
-                  onChange={(e) =>
-                    onChange(e.target.value, setworkValue(e.target.value))
-                  }
+                  value={employee.workType}
+                  onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
                     <Radio value={"full-time"}>Full-time</Radio>
