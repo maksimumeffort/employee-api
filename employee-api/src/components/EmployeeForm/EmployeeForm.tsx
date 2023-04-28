@@ -3,7 +3,8 @@ import { Input, Select, Radio, Space, Checkbox } from "antd";
 import type { RadioChangeEvent } from "antd";
 import { NavLink, useNavigate } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
-import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 type Inputs = {
   name: string;
@@ -11,12 +12,12 @@ type Inputs = {
   lastName: string;
   contractType: string;
   workType: string;
-  startDay: string;
-  startMonth: string;
-  startYear: string;
-  finishDay: string;
-  finishMonth: string;
-  finishYear: string;
+  startDay: number | null;
+  startMonth: number | null;
+  startYear: number | null;
+  finishDay: number | null;
+  finishMonth: number | null;
+  finishYear: number | null;
   isOngoing: boolean;
   email: string;
   mobile: string;
@@ -29,6 +30,43 @@ type Inputs = {
 const { Option } = Select;
 
 export const EmployeeForm = ({ employee, onSubmit }: any) => {
+  const thisYear = +new Date().toString().split(" ")[3];
+
+  // phone number can start with 0, or with 3/2 and so on.
+  const phoneRegExp = /^0?[2,3,4,7,8][0-9]{8}$/;
+
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    middleName: yup.string().optional(),
+    lastName: yup.string().required(),
+    contractType: yup.string().required(),
+    workType: yup.string().required(),
+    startDay: yup.number().required().min(1).max(31),
+    startMonth: yup.number().required().min(1).max(12),
+    startYear: yup
+      .number()
+      .required()
+      .min(thisYear - 100)
+      .max(thisYear),
+    finalDay: yup.number().optional().min(1).max(31),
+    finalMonth: yup.number().optional().min(1).max(12),
+    finalYear: yup
+      .number()
+      .required()
+      .min(thisYear - 100)
+      .max(thisYear),
+    isOngoing: yup.boolean().required(),
+    email: yup.string().email().required(),
+    mobile: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+    // not sure if that is all validation required for address
+    address: yup.string(),
+    hoursPerWeek: yup
+      .number()
+      .required()
+      .min(1)
+      .max(24 * 7),
+  });
+
   const {
     register,
     control,
@@ -36,27 +74,36 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
+      name: "",
+      middleName: "",
+      lastName: "",
+      startDay: null,
+      startMonth: null,
+      startYear: null,
+      email: "",
+      mobile: "",
+      address: "",
+      hoursPerWeek: 1,
       isOngoing: false,
       contractType: "permanent",
       workType: "full-time",
+      finishDay: null,
+      finishMonth: null,
+      finishYear: null,
     },
+    resolver: yupResolver(schema),
   });
 
-  let navigate = useNavigate();
-  const goHome = () => {
-    navigate("/");
-  };
-
+  // convert numbers to strings when sending post request
+  // convert strings to numbers and set it out in the right fields on get request
   let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
   let finishDateArray = employee.finishDate
     ? employee.finishDate.split("-")
     : [];
 
-  let isOngoing = employee.isOngoing ? true : false;
-
   //TODO1: finish date is optional
   //TODO2: listen to Calum
-  //TODO3: if Ongoing is selected ? no fiish date required : finish date required
+  //TODO3: if Ongoing is selected ? no finish date required : finish date required
 
   return (
     <div>
@@ -138,12 +185,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               />
             }
             {
-              <input
-                defaultValue={startDateArray[1]}
-                {...register("startMonth")}
-              />
-            }
-            {/* {
               <Controller
                 control={control}
                 name="startMonth"
@@ -153,22 +194,22 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                     defaultValue={startDateArray[1]}
                     className={styles.DateSelect}
                   >
-                    <Option value="01">January</Option>
-                    <Option value="02">February</Option>
-                    <Option value="03">March</Option>
-                    <Option value="04">April</Option>
-                    <Option value="05">May</Option>
-                    <Option value="06">June</Option>
-                    <Option value="07">July</Option>
-                    <Option value="08">August</Option>
-                    <Option value="9">September</Option>
-                    <Option value="10">October</Option>
-                    <Option value="11">November</Option>
-                    <Option value="12">December</Option>
+                    <Option value={1}>January</Option>
+                    <Option value={2}>February</Option>
+                    <Option value={3}>March</Option>
+                    <Option value={4}>April</Option>
+                    <Option value={5}>May</Option>
+                    <Option value={6}>June</Option>
+                    <Option value={7}>July</Option>
+                    <Option value={8}>August</Option>
+                    <Option value={9}>September</Option>
+                    <Option value={10}>October</Option>
+                    <Option value={11}>November</Option>
+                    <Option value={12}>December</Option>
                   </Select>
                 )}
               />
-            } */}
+            }
 
             {
               <input
@@ -193,21 +234,21 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={finishDateArray ? finishDateArray[1] : "01"}
+                    defaultValue={finishDateArray ? finishDateArray[1] : 1}
                     className={styles.DateSelect}
                   >
-                    <Option value="01">January</Option>
-                    <Option value="02">February</Option>
-                    <Option value="03">March</Option>
-                    <Option value="04">April</Option>
-                    <Option value="05">May</Option>
-                    <Option value="06">June</Option>
-                    <Option value="07">July</Option>
-                    <Option value="08">August</Option>
-                    <Option value="9">September</Option>
-                    <Option value="10">October</Option>
-                    <Option value="11">November</Option>
-                    <Option value="12">December</Option>
+                    <Option value={1}>January</Option>
+                    <Option value={2}>February</Option>
+                    <Option value={3}>March</Option>
+                    <Option value={4}>April</Option>
+                    <Option value={5}>May</Option>
+                    <Option value={6}>June</Option>
+                    <Option value={7}>July</Option>
+                    <Option value={8}>August</Option>
+                    <Option value={9}>September</Option>
+                    <Option value={10}>October</Option>
+                    <Option value={11}>November</Option>
+                    <Option value={12}>December</Option>
                   </Select>
                 )}
               />
