@@ -73,24 +73,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({
-    defaultValues: {
-      name: "",
-      middleName: "",
-      lastName: "",
-      startDay: null,
-      startMonth: null,
-      startYear: null,
-      email: "",
-      mobile: "",
-      address: "",
-      hoursPerWeek: 1,
-      isOngoing: false,
-      contractType: "permanent",
-      workType: "full-time",
-      finishDay: null,
-      finishMonth: null,
-      finishYear: null,
-    },
     resolver: yupResolver(schema),
   });
 

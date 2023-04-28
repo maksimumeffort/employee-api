@@ -3,6 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { EmployeeForm } from "../../components/EmployeeForm/EmployeeForm";
+import { DefaultValues } from "../../interfaces/DefaultValues";
 
 export const NewEmployeePage = () => {
   const employeeInfo: any = [];
@@ -26,7 +27,7 @@ export const NewEmployeePage = () => {
   return (
     <>
       <div>
-        <EmployeeForm employee={employeeInfo} onSubmit={onSubmit} />
+        <EmployeeForm employee={DefaultValues} onSubmit={onSubmit} />
       </div>
     </>
   );
