@@ -23,7 +23,6 @@ type Inputs = {
   mobile: string;
   address: string;
   hoursPerWeek: number;
-
   exampleRequired: string;
 };
 
@@ -41,30 +40,33 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     lastName: yup.string().required(),
     contractType: yup.string().required(),
     workType: yup.string().required(),
-    startDay: yup.number().required().min(1).max(31),
-    startMonth: yup.number().required().min(1).max(12),
+    startDay: yup.number().min(1).max(31).required(),
+    startMonth: yup.number().min(1).max(12).required(),
     startYear: yup
       .number()
-      .required()
       .min(thisYear - 100)
-      .max(thisYear),
-    finalDay: yup.number().optional().min(1).max(31),
-    finalMonth: yup.number().optional().min(1).max(12),
+      .max(thisYear)
+      .required(),
+    finalDay: yup.number().min(1).max(31).optional(),
+    finalMonth: yup.number().min(1).max(12).optional(),
     finalYear: yup
       .number()
-      .required()
       .min(thisYear - 100)
-      .max(thisYear),
+      .max(thisYear)
+      .required(),
     isOngoing: yup.boolean().required(),
     email: yup.string().email().required(),
-    mobile: yup.string().matches(phoneRegExp, "Phone number is not valid"),
+    mobile: yup
+      .string()
+      .matches(phoneRegExp, "Phone number is not valid")
+      .required(),
     // not sure if that is all validation required for address
     address: yup.string(),
     hoursPerWeek: yup
       .number()
-      .required()
       .min(1)
-      .max(24 * 7),
+      .max(24 * 7)
+      .required(),
   });
 
   const {
@@ -78,14 +80,16 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
   // convert numbers to strings when sending post request
   // convert strings to numbers and set it out in the right fields on get request
-  let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
-  let finishDateArray = employee.finishDate
-    ? employee.finishDate.split("-")
-    : [];
+  // let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
+  // let finishDateArray = employee.finishDate
+  //   ? employee.finishDate.split("-")
+  //   : [];
 
   //TODO1: finish date is optional
   //TODO2: listen to Calum
   //TODO3: if Ongoing is selected ? no finish date required : finish date required
+  //TODO4: check if date specified is after current date
+  //TODO5: convert string into number for start and end date
 
   return (
     <div>
@@ -98,8 +102,14 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
         <section className={styles.EmployeeFormPersonal}>
           <h2>Personal Information</h2>
           <h5>First Name</h5>
-          {<input defaultValue={employee.name} {...register("name")} />}
-          <h5>Middle Name</h5>
+          {
+            <input
+              defaultValue={employee.name}
+              {...register("name", { required: true, minLength: 2 })}
+            />
+          }
+          <p>{errors.name?.message}</p>
+          <h5>Middle Name (if applicable)</h5>
           {
             <input
               defaultValue={employee.middleName}
@@ -108,6 +118,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           }
           <h5>Last Name</h5>
           {<input defaultValue={employee.lastName} {...register("lastName")} />}
+          <p>{errors.lastName?.message}</p>
         </section>
 
         <section className={styles.EmployeeFormContact}>
@@ -120,6 +131,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               className={styles.EmployeeFormContactEmail}
             />
           }
+          <p>{errors.email?.message}</p>
           <h5>Mobile number</h5>
           {
             <input
@@ -128,6 +140,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               className={styles.EmployeeFormContactMobile}
             />
           }
+          <p>{errors.mobile?.message}</p>
           <h5>Residential address</h5>
           {
             <input
@@ -147,7 +160,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               name="contractType"
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
-                  value={employee.contractType}
+                  value={value}
+                  defaultValue={employee.contractType}
                   onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
@@ -162,7 +176,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <section>
             {
               <input
-                defaultValue={startDateArray[2]}
+                defaultValue={employee.startDay}
                 {...register("startDay")}
               />
             }
@@ -173,7 +187,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={startDateArray[1]}
+                    defaultValue={employee.startMonth}
                     className={styles.DateSelect}
                   >
                     <Option value={1}>January</Option>
@@ -195,7 +209,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
             {
               <input
-                defaultValue={startDateArray[0]}
+                defaultValue={employee.startYear}
                 {...register("startYear")}
               />
             }
@@ -205,7 +219,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <section>
             {
               <input
-                defaultValue={finishDateArray[2]}
+                defaultValue={employee.finishDay}
                 {...register("finishDay")}
               />
             }
@@ -216,7 +230,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={finishDateArray ? finishDateArray[1] : 1}
+                    defaultValue={employee.finishMonth}
                     className={styles.DateSelect}
                   >
                     <Option value={1}>January</Option>
@@ -237,7 +251,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
             }
             {
               <input
-                defaultValue={finishDateArray[0]}
+                defaultValue={employee.finishYear}
                 {...register("finishYear")}
               />
             }
@@ -251,6 +265,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field: { value, onChange } }) => (
                   <Checkbox
                     checked={value}
+                    defaultChecked={employee.isOngoing}
                     onChange={(e) => {
                       onChange(e.target.checked);
                     }}
@@ -268,7 +283,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               name="workType"
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
-                  value={employee.workType}
+                  value={value}
+                  defaultValue={employee.workType}
                   onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
@@ -287,6 +303,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               className={styles.EmployeeFormStatusHours}
             />
           }
+          <p>{errors.hoursPerWeek?.message}</p>
           <section className={styles.EmployeeFormButtons}>
             <button
               type="submit"

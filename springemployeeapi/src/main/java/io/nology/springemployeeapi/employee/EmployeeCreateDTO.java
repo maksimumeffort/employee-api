@@ -2,6 +2,7 @@ package io.nology.springemployeeapi.employee;
 // import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 public class EmployeeCreateDTO {
     
@@ -22,13 +23,12 @@ public class EmployeeCreateDTO {
     private String startMonth;
     @NotBlank
     private String startYear;
-    @NotBlank
+   
     private String finishDay;
-    @NotBlank
     private String finishMonth;
-    @NotBlank
     private String finishYear;
     
+    @NotNull
     private Boolean isOngoing;
     @NotBlank
     private String email;
