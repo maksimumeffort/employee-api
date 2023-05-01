@@ -1,7 +1,8 @@
-import { useForm, Controller } from "react-hook-form";
-import { Input, Select, Radio, Space, Checkbox } from "antd";
+import { useForm, Controller, DefaultValues } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { Select, Radio, Space, Checkbox } from "antd";
 import type { RadioChangeEvent } from "antd";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -12,12 +13,12 @@ type Inputs = {
   lastName: string;
   contractType: string;
   workType: string;
-  startDay: number | null;
-  startMonth: number | null;
-  startYear: number | null;
-  finishDay: number | null;
-  finishMonth: number | null;
-  finishYear: number | null;
+  startDay: string | null;
+  startMonth: string | null;
+  startYear: string | null;
+  finishDay: string | null;
+  finishMonth: string | null;
+  finishYear: string | null;
   isOngoing: boolean;
   email: string;
   mobile: string;
@@ -40,20 +41,12 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     lastName: yup.string().required(),
     contractType: yup.string().required(),
     workType: yup.string().required(),
-    startDay: yup.number().min(1).max(31).required(),
-    startMonth: yup.number().min(1).max(12).required(),
-    startYear: yup
-      .number()
-      .min(thisYear - 100)
-      .max(thisYear)
-      .required(),
-    finalDay: yup.number().min(1).max(31).optional(),
-    finalMonth: yup.number().min(1).max(12).optional(),
-    finalYear: yup
-      .number()
-      .min(thisYear - 100)
-      .max(thisYear)
-      .required(),
+    startDay: yup.number().required(),
+    startMonth: yup.number().required(),
+    startYear: yup.number().required(),
+    finalDay: yup.number().optional(),
+    finalMonth: yup.number().optional(),
+    finalYear: yup.number().optional(),
     isOngoing: yup.boolean().required(),
     email: yup.string().email().required(),
     mobile: yup
@@ -69,27 +62,42 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
       .required(),
   });
 
+  // console.log(thisYear);
+
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
+    getValues,
+    reset,
   } = useForm<Inputs>({
+    defaultValues: employee,
     resolver: yupResolver(schema),
   });
 
-  // convert numbers to strings when sending post request
-  // convert strings to numbers and set it out in the right fields on get request
-  // let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
-  // let finishDateArray = employee.finishDate
-  //   ? employee.finishDate.split("-")
-  //   : [];
+  const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
+  const switchIsOngoing = (event: any) => {
+    setIsOngoing(event.target.checked);
+  };
+
+  let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
+  let finishDateArray = employee.finishDate
+    ? employee.finishDate.split("-")
+    : [];
 
   //TODO1: finish date is optional
   //TODO2: listen to Calum
   //TODO3: if Ongoing is selected ? no finish date required : finish date required
   //TODO4: check if date specified is after current date
-  //TODO5: convert string into number for start and end date
+  // convert string into number for start and end date
+
+  // console.log(finishDateArray[1] == "02");
+  // console.log(getValues("name"));
+
+  useEffect(() => {
+    reset(employee);
+  }, [employee]);
 
   return (
     <div>
@@ -104,20 +112,25 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>First Name</h5>
           {
             <input
-              defaultValue={employee.name}
-              {...register("name", { required: true, minLength: 2 })}
+              // defaultValue={employee.name}
+              {...register("name", { minLength: 2 })}
             />
           }
           <p>{errors.name?.message}</p>
           <h5>Middle Name (if applicable)</h5>
           {
             <input
-              defaultValue={employee.middleName}
+              // defaultValue={employee.middleName}
               {...register("middleName")}
             />
           }
           <h5>Last Name</h5>
-          {<input defaultValue={employee.lastName} {...register("lastName")} />}
+          {
+            <input
+              // defaultValue={employee.lastName}
+              {...register("lastName", { minLength: 2 })}
+            />
+          }
           <p>{errors.lastName?.message}</p>
         </section>
 
@@ -126,7 +139,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Email address</h5>
           {
             <input
-              defaultValue={employee.email}
+              // defaultValue={employee.email}
               {...register("email")}
               className={styles.EmployeeFormContactEmail}
             />
@@ -135,7 +148,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Mobile number</h5>
           {
             <input
-              defaultValue={employee.mobile}
+              // defaultValue={employee.mobile}
               {...register("mobile")}
               className={styles.EmployeeFormContactMobile}
             />
@@ -144,7 +157,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Residential address</h5>
           {
             <input
-              defaultValue={employee.address}
+              // defaultValue={employee.address}
               {...register("address")}
               className={styles.EmployeeFormContactAddress}
             />
@@ -161,7 +174,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
                   value={value}
-                  defaultValue={employee.contractType}
+                  // defaultValue={employee.contractType}
                   onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
@@ -174,12 +187,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           }
           <h5>Start date</h5>
           <section>
-            {
-              <input
-                defaultValue={employee.startDay}
-                {...register("startDay")}
-              />
-            }
+            {<input value={startDateArray[2]} {...register("startDay")} />}
             {
               <Controller
                 control={control}
@@ -187,39 +195,36 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={employee.startMonth}
+                    value={startDateArray[1]}
+                    // defaultValue={employee.startMonth || startDateArray[1]}
                     className={styles.DateSelect}
                   >
-                    <Option value={1}>January</Option>
-                    <Option value={2}>February</Option>
-                    <Option value={3}>March</Option>
-                    <Option value={4}>April</Option>
-                    <Option value={5}>May</Option>
-                    <Option value={6}>June</Option>
-                    <Option value={7}>July</Option>
-                    <Option value={8}>August</Option>
-                    <Option value={9}>September</Option>
-                    <Option value={10}>October</Option>
-                    <Option value={11}>November</Option>
-                    <Option value={12}>December</Option>
+                    <Option value="01">January</Option>
+                    <Option value="02">February</Option>
+                    <Option value="03">March</Option>
+                    <Option value="04">April</Option>
+                    <Option value="05">May</Option>
+                    <Option value="06">June</Option>
+                    <Option value="07">July</Option>
+                    <Option value="08">August</Option>
+                    <Option value="09">September</Option>
+                    <Option value="10">October</Option>
+                    <Option value="11">November</Option>
+                    <Option value="12">December</Option>
                   </Select>
                 )}
               />
             }
 
-            {
-              <input
-                defaultValue={employee.startYear}
-                {...register("startYear")}
-              />
-            }
+            {<input value={startDateArray[0]} {...register("startYear")} />}
           </section>
 
           <h5>Finish date</h5>
           <section>
             {
               <input
-                defaultValue={employee.finishDay}
+                value={finishDateArray[1]}
+                disabled={isOngoing}
                 {...register("finishDay")}
               />
             }
@@ -230,28 +235,30 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    defaultValue={employee.finishMonth}
+                    value={finishDateArray[1]}
+                    disabled={isOngoing}
                     className={styles.DateSelect}
                   >
-                    <Option value={1}>January</Option>
-                    <Option value={2}>February</Option>
-                    <Option value={3}>March</Option>
-                    <Option value={4}>April</Option>
-                    <Option value={5}>May</Option>
-                    <Option value={6}>June</Option>
-                    <Option value={7}>July</Option>
-                    <Option value={8}>August</Option>
-                    <Option value={9}>September</Option>
-                    <Option value={10}>October</Option>
-                    <Option value={11}>November</Option>
-                    <Option value={12}>December</Option>
+                    <Option value="01">January</Option>
+                    <Option value="02">February</Option>
+                    <Option value="03">March</Option>
+                    <Option value="04">April</Option>
+                    <Option value="05">May</Option>
+                    <Option value="06">June</Option>
+                    <Option value="07">July</Option>
+                    <Option value="08">August</Option>
+                    <Option value="09">September</Option>
+                    <Option value="10">October</Option>
+                    <Option value="11">November</Option>
+                    <Option value="12">December</Option>
                   </Select>
                 )}
               />
             }
             {
               <input
-                defaultValue={employee.finishYear}
+                value={finishDateArray[0]}
+                disabled={isOngoing}
                 {...register("finishYear")}
               />
             }
@@ -265,9 +272,10 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field: { value, onChange } }) => (
                   <Checkbox
                     checked={value}
-                    defaultChecked={employee.isOngoing}
+                    // defaultChecked={employee.isOngoing}
                     onChange={(e) => {
                       onChange(e.target.checked);
+                      setIsOngoing(e.target.checked);
                     }}
                   />
                 )}
@@ -284,7 +292,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
                   value={value}
-                  defaultValue={employee.workType}
+                  // defaultValue={employee.workType}
                   onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
@@ -298,7 +306,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Hours Per Week</h5>
           {
             <input
-              defaultValue={employee.hoursPerWeek}
+              // defaultValue={employee.hoursPerWeek}
               {...register("hoursPerWeek")}
               className={styles.EmployeeFormStatusHours}
             />

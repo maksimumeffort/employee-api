@@ -1,6 +1,7 @@
 package io.nology.springemployeeapi.employee;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +22,15 @@ public class EmployeeService {
     // create new employee
     public Employee create(EmployeeCreateDTO data) {
         String cleanName = data.getName().toLowerCase();
+        // String cleanStartMonth = "";
+        // String cleanFinishMonth = "";
+
+        String cleanStartMonth = Arrays.asList("10", "11", "12").contains(data.getStartMonth()) ? data.getStartMonth() : String.format("0%s", data.getStartMonth());
         
-        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        // String cleanFinishMonth = Arrays.asList("10", "11", "12").contains(data.getFinishMonth()) ? data.getFinishMonth() : String.format("0%s", data.getFinishMonth());
+        
+        
+        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + cleanStartMonth + "-" + data.getStartDay());
         LocalDate finishDate = LocalDate.parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
 
         Employee newEmployee = new Employee(cleanName, 
@@ -58,7 +66,9 @@ public class EmployeeService {
             this.create(data);
         }
 
-        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        String cleanStartMonth = Arrays.asList("10", "11", "12").contains(data.getStartMonth()) ? data.getStartMonth() : String.format("0%s", data.getStartMonth());
+
+        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + cleanStartMonth + "-" + data.getStartDay());
         LocalDate finishDate = LocalDate.parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
         
         Employee employeeToUpdate = maybeEmployee.get();
