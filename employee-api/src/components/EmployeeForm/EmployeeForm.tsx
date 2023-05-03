@@ -1,69 +1,14 @@
-import { useForm, Controller, DefaultValues } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
 import { Select, Radio, Space, Checkbox } from "antd";
-import type { RadioChangeEvent } from "antd";
 import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-
-type Inputs = {
-  name: string;
-  middleName: string;
-  lastName: string;
-  contractType: string;
-  workType: string;
-  startDay: string | null;
-  startMonth: string | null;
-  startYear: string | null;
-  finishDay: string | null;
-  finishMonth: string | null;
-  finishYear: string | null;
-  isOngoing: boolean;
-  email: string;
-  mobile: string;
-  address: string;
-  hoursPerWeek: number;
-  exampleRequired: string;
-};
+import { FormSchema, FormInputs } from "../../interfaces/ValidationsAndTypes";
 
 const { Option } = Select;
 
 export const EmployeeForm = ({ employee, onSubmit }: any) => {
-  const thisYear = +new Date().toString().split(" ")[3];
-
-  // phone number can start with 0, or with 3/2 and so on.
-  const phoneRegExp = /^0?[2,3,4,7,8][0-9]{8}$/;
-
-  const schema = yup.object().shape({
-    name: yup.string().required(),
-    middleName: yup.string().optional(),
-    lastName: yup.string().required(),
-    contractType: yup.string().required(),
-    workType: yup.string().required(),
-    startDay: yup.number().required(),
-    startMonth: yup.number().required(),
-    startYear: yup.number().required(),
-    finalDay: yup.number().optional(),
-    finalMonth: yup.number().optional(),
-    finalYear: yup.number().optional(),
-    isOngoing: yup.boolean().required(),
-    email: yup.string().email().required(),
-    mobile: yup
-      .string()
-      .matches(phoneRegExp, "Phone number is not valid")
-      .required(),
-    // not sure if that is all validation required for address
-    address: yup.string(),
-    hoursPerWeek: yup
-      .number()
-      .min(1)
-      .max(24 * 7)
-      .required(),
-  });
-
-  // console.log(thisYear);
-
   const {
     register,
     control,
@@ -71,33 +16,65 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     formState: { errors },
     getValues,
     reset,
-  } = useForm<Inputs>({
+  } = useForm<FormInputs>({
     defaultValues: employee,
-    resolver: yupResolver(schema),
+    resolver: yupResolver(FormSchema),
   });
 
-  const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
-  const switchIsOngoing = (event: any) => {
-    setIsOngoing(event.target.checked);
-  };
+  // date values and states
 
-  let startDateArray = employee.startDate ? employee.startDate.split("-") : [];
-  let finishDateArray = employee.finishDate
-    ? employee.finishDate.split("-")
-    : [];
+  const [startDay, setStartDay] = useState("");
+  const [startMonth, setStartMonth] = useState("");
+  const [startYear, setStartYear] = useState("");
+  const [finishDay, setFinishDay] = useState("");
+  const [finishMonth, setFinishMonth] = useState("");
+  const [finishYear, setFinishYear] = useState("");
+
+  const handleStartDayChange = (event: any) => {
+    setStartDay(event);
+  };
+  const handleStartMonthChange = (event: any) => {
+    setStartMonth(event);
+  };
+  const handleStartYearChange = (event: any) => {
+    setStartYear(event);
+  };
+  const handleFinishDayChange = (event: any) => {
+    setFinishDay(event);
+  };
+  const handleFinishMonthChange = (event: any) => {
+    setFinishMonth(event.target.value);
+  };
+  const handleFinishYearChange = (event: any) => {
+    setFinishYear(event.target.value);
+  };
+  // console.log(startMonth, "hello");
+
+  // date values state changing
+
+  // isOngoing state switch
+
+  const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
+  // const switchIsOngoing = (event: any) => {
+  //   setIsOngoing(event.target.checked);
+  // };
+
+  useEffect(() => {
+    reset(employee);
+    setStartDay(employee.startDate ? employee.startDate.split("-")[2] : "");
+    setStartMonth(employee.startDate ? employee.startDate.split("-")[1] : "");
+    setStartYear(employee.startDate ? employee.startDate.split("-")[0] : "");
+    setFinishDay(employee.finishDate ? employee.finishDate.split("-")[2] : "");
+    setFinishMonth(
+      employee.finishDate ? employee.finishDate.split("-")[1] : ""
+    );
+    setFinishYear(employee.finishDate ? employee.finishDate.split("-")[0] : "");
+  }, [employee]);
 
   //TODO1: finish date is optional
   //TODO2: listen to Calum
   //TODO3: if Ongoing is selected ? no finish date required : finish date required
   //TODO4: check if date specified is after current date
-  // convert string into number for start and end date
-
-  // console.log(finishDateArray[1] == "02");
-  // console.log(getValues("name"));
-
-  useEffect(() => {
-    reset(employee);
-  }, [employee]);
 
   return (
     <div>
@@ -185,9 +162,16 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               )}
             />
           }
+
           <h5>Start date</h5>
           <section>
-            {<input value={startDateArray[2]} {...register("startDay")} />}
+            <input
+              id="startDay"
+              name="startDay"
+              type="text"
+              value={startDay}
+              onChange={(e) => handleStartDayChange(e)}
+            />
             {
               <Controller
                 control={control}
@@ -195,7 +179,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    value={startDateArray[1]}
+                    value={startMonth}
+                    onChange={(e) => handleStartMonthChange(e)}
                     // defaultValue={employee.startMonth || startDateArray[1]}
                     className={styles.DateSelect}
                   >
@@ -216,18 +201,25 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               />
             }
 
-            {<input value={startDateArray[0]} {...register("startYear")} />}
+            <input
+              id="startYear"
+              name="startYear"
+              type="text"
+              value={startYear}
+              onChange={(e) => handleStartYearChange(e)}
+            />
           </section>
 
           <h5>Finish date</h5>
           <section>
-            {
-              <input
-                value={finishDateArray[1]}
-                disabled={isOngoing}
-                {...register("finishDay")}
-              />
-            }
+            <input
+              id="finishDay"
+              name="finishDay"
+              type="text"
+              disabled={isOngoing}
+              value={finishDay}
+              onChange={(e) => handleFinishDayChange(e)}
+            />
             {
               <Controller
                 control={control}
@@ -235,9 +227,10 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field }) => (
                   <Select
                     {...field}
-                    value={finishDateArray[1]}
+                    value={finishMonth}
                     disabled={isOngoing}
                     className={styles.DateSelect}
+                    onChange={(e) => handleFinishMonthChange(e)}
                   >
                     <Option value="01">January</Option>
                     <Option value="02">February</Option>
@@ -255,13 +248,14 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 )}
               />
             }
-            {
-              <input
-                value={finishDateArray[0]}
-                disabled={isOngoing}
-                {...register("finishYear")}
-              />
-            }
+            <input
+              id="finishYear"
+              name="finishYear"
+              type="text"
+              disabled={isOngoing}
+              value={finishYear}
+              onChange={(e) => handleFinishYearChange(e)}
+            />
           </section>
 
           <section className={styles.EmployeeFormOngoing}>
