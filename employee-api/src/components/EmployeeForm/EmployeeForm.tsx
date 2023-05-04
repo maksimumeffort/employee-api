@@ -43,16 +43,11 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     setFinishDay(event);
   };
   const handleFinishMonthChange = (event: any) => {
-    setFinishMonth(event.target.value);
+    setFinishMonth(event);
   };
   const handleFinishYearChange = (event: any) => {
-    setFinishYear(event.target.value);
+    setFinishYear(event);
   };
-  // console.log(startMonth, "hello");
-
-  // date values state changing
-
-  // isOngoing state switch
 
   const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
   // const switchIsOngoing = (event: any) => {
@@ -61,14 +56,20 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
   useEffect(() => {
     reset(employee);
-    setStartDay(employee.startDate ? employee.startDate.split("-")[2] : "");
-    setStartMonth(employee.startDate ? employee.startDate.split("-")[1] : "");
-    setStartYear(employee.startDate ? employee.startDate.split("-")[0] : "");
-    setFinishDay(employee.finishDate ? employee.finishDate.split("-")[2] : "");
-    setFinishMonth(
-      employee.finishDate ? employee.finishDate.split("-")[1] : ""
-    );
-    setFinishYear(employee.finishDate ? employee.finishDate.split("-")[0] : "");
+    if (employee) {
+      setStartDay(employee.startDate ? employee.startDate.split("-")[2] : "");
+      setStartMonth(employee.startDate ? employee.startDate.split("-")[1] : "");
+      setStartYear(employee.startDate ? employee.startDate.split("-")[0] : "");
+      setFinishDay(
+        employee.finishDate ? employee.finishDate.split("-")[2] : ""
+      );
+      setFinishMonth(
+        employee.finishDate ? employee.finishDate.split("-")[1] : ""
+      );
+      setFinishYear(
+        employee.finishDate ? employee.finishDate.split("-")[0] : ""
+      );
+    }
   }, [employee]);
 
   //TODO1: finish date is optional
@@ -165,13 +166,13 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
           <h5>Start date</h5>
           <section>
-            <input
-              id="startDay"
-              name="startDay"
-              type="text"
-              value={startDay}
-              onChange={(e) => handleStartDayChange(e)}
-            />
+            {
+              <input
+                name="startDay"
+                value={startDay}
+                onChange={(e) => handleStartDayChange(e.target.value)}
+              />
+            }
             {
               <Controller
                 control={control}
@@ -200,26 +201,26 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 )}
               />
             }
-
-            <input
-              id="startYear"
-              name="startYear"
-              type="text"
-              value={startYear}
-              onChange={(e) => handleStartYearChange(e)}
-            />
+            {
+              <input
+                name="startYear"
+                value={startYear}
+                onChange={(e) => handleStartYearChange(e.target.value)}
+              />
+            }
           </section>
 
           <h5>Finish date</h5>
           <section>
-            <input
-              id="finishDay"
-              name="finishDay"
-              type="text"
-              disabled={isOngoing}
-              value={finishDay}
-              onChange={(e) => handleFinishDayChange(e)}
-            />
+            {
+              <input
+                name="finishDay"
+                disabled={isOngoing}
+                value={finishDay}
+                onChange={(e) => handleFinishDayChange(e.target.value)}
+              />
+            }
+
             {
               <Controller
                 control={control}
@@ -248,14 +249,14 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 )}
               />
             }
-            <input
-              id="finishYear"
-              name="finishYear"
-              type="text"
-              disabled={isOngoing}
-              value={finishYear}
-              onChange={(e) => handleFinishYearChange(e)}
-            />
+            {
+              <input
+                name="finishYear"
+                disabled={isOngoing}
+                value={finishYear}
+                onChange={(e) => handleFinishYearChange(e.target.value)}
+              />
+            }
           </section>
 
           <section className={styles.EmployeeFormOngoing}>
