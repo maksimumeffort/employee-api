@@ -23,31 +23,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
   // date values and states
 
-  const [startDay, setStartDay] = useState("");
-  const [startMonth, setStartMonth] = useState("");
-  const [startYear, setStartYear] = useState("");
-  const [finishDay, setFinishDay] = useState("");
-  const [finishMonth, setFinishMonth] = useState("");
-  const [finishYear, setFinishYear] = useState("");
-
-  const handleStartDayChange = (event: any) => {
-    setStartDay(event);
-  };
-  const handleStartMonthChange = (event: any) => {
-    setStartMonth(event);
-  };
-  const handleStartYearChange = (event: any) => {
-    setStartYear(event);
-  };
-  const handleFinishDayChange = (event: any) => {
-    setFinishDay(event);
-  };
-  const handleFinishMonthChange = (event: any) => {
-    setFinishMonth(event);
-  };
-  const handleFinishYearChange = (event: any) => {
-    setFinishYear(event);
-  };
+  // console.log(employee);
 
   const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
   // const switchIsOngoing = (event: any) => {
@@ -55,21 +31,22 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
   // };
 
   useEffect(() => {
-    reset(employee);
-    if (employee) {
-      setStartDay(employee.startDate ? employee.startDate.split("-")[2] : "");
-      setStartMonth(employee.startDate ? employee.startDate.split("-")[1] : "");
-      setStartYear(employee.startDate ? employee.startDate.split("-")[0] : "");
-      setFinishDay(
-        employee.finishDate ? employee.finishDate.split("-")[2] : ""
-      );
-      setFinishMonth(
-        employee.finishDate ? employee.finishDate.split("-")[1] : ""
-      );
-      setFinishYear(
-        employee.finishDate ? employee.finishDate.split("-")[0] : ""
-      );
-    }
+    let copy = { ...employee };
+    const [startYear, startMonth, startDay] =
+      employee.startDate?.split("-") ?? "";
+    const [finishYear, finishMonth, finishDay] =
+      employee.finishDate?.split("-") ?? "";
+    copy = {
+      ...copy,
+      startYear,
+      startMonth,
+      startDay,
+      finishYear,
+      finishMonth,
+      finishDay,
+    };
+    console.log(copy, "copy");
+    reset(copy);
   }, [employee]);
 
   //TODO1: finish date is optional
@@ -96,19 +73,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           }
           <p>{errors.name?.message}</p>
           <h5>Middle Name (if applicable)</h5>
-          {
-            <input
-              // defaultValue={employee.middleName}
-              {...register("middleName")}
-            />
-          }
+          {<input {...register("middleName")} />}
           <h5>Last Name</h5>
-          {
-            <input
-              // defaultValue={employee.lastName}
-              {...register("lastName", { minLength: 2 })}
-            />
-          }
+          {<input {...register("lastName", { minLength: 2 })} />}
           <p>{errors.lastName?.message}</p>
         </section>
 
@@ -117,7 +84,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Email address</h5>
           {
             <input
-              // defaultValue={employee.email}
               {...register("email")}
               className={styles.EmployeeFormContactEmail}
             />
@@ -126,7 +92,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Mobile number</h5>
           {
             <input
-              // defaultValue={employee.mobile}
               {...register("mobile")}
               className={styles.EmployeeFormContactMobile}
             />
@@ -135,7 +100,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Residential address</h5>
           {
             <input
-              // defaultValue={employee.address}
               {...register("address")}
               className={styles.EmployeeFormContactAddress}
             />
@@ -152,7 +116,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
                   value={value}
-                  // defaultValue={employee.contractType}
                   onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
@@ -166,97 +129,51 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
           <h5>Start date</h5>
           <section>
+            {<input {...register("startDay")} />}
             {
-              <input
-                name="startDay"
-                value={startDay}
-                onChange={(e) => handleStartDayChange(e.target.value)}
-              />
+              <select {...register("startMonth")} className={styles.DateSelect}>
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
             }
-            {
-              <Controller
-                control={control}
-                name="startMonth"
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    value={startMonth}
-                    onChange={(e) => handleStartMonthChange(e)}
-                    // defaultValue={employee.startMonth || startDateArray[1]}
-                    className={styles.DateSelect}
-                  >
-                    <Option value="01">January</Option>
-                    <Option value="02">February</Option>
-                    <Option value="03">March</Option>
-                    <Option value="04">April</Option>
-                    <Option value="05">May</Option>
-                    <Option value="06">June</Option>
-                    <Option value="07">July</Option>
-                    <Option value="08">August</Option>
-                    <Option value="09">September</Option>
-                    <Option value="10">October</Option>
-                    <Option value="11">November</Option>
-                    <Option value="12">December</Option>
-                  </Select>
-                )}
-              />
-            }
-            {
-              <input
-                name="startYear"
-                value={startYear}
-                onChange={(e) => handleStartYearChange(e.target.value)}
-              />
-            }
+
+            {<input {...register("startYear")} />}
           </section>
 
           <h5>Finish date</h5>
           <section>
-            {
-              <input
-                name="finishDay"
-                disabled={isOngoing}
-                value={finishDay}
-                onChange={(e) => handleFinishDayChange(e.target.value)}
-              />
-            }
+            {<input {...register("finishDay")} disabled={isOngoing} />}
 
             {
-              <Controller
-                control={control}
-                name="finishMonth"
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    value={finishMonth}
-                    disabled={isOngoing}
-                    className={styles.DateSelect}
-                    onChange={(e) => handleFinishMonthChange(e)}
-                  >
-                    <Option value="01">January</Option>
-                    <Option value="02">February</Option>
-                    <Option value="03">March</Option>
-                    <Option value="04">April</Option>
-                    <Option value="05">May</Option>
-                    <Option value="06">June</Option>
-                    <Option value="07">July</Option>
-                    <Option value="08">August</Option>
-                    <Option value="09">September</Option>
-                    <Option value="10">October</Option>
-                    <Option value="11">November</Option>
-                    <Option value="12">December</Option>
-                  </Select>
-                )}
-              />
+              <select
+                {...register("finishMonth")}
+                className={styles.DateSelect}
+              >
+                <option value="01">January</option>
+                <option value="02">February</option>
+                <option value="03">March</option>
+                <option value="04">April</option>
+                <option value="05">May</option>
+                <option value="06">June</option>
+                <option value="07">July</option>
+                <option value="08">August</option>
+                <option value="09">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
             }
-            {
-              <input
-                name="finishYear"
-                disabled={isOngoing}
-                value={finishYear}
-                onChange={(e) => handleFinishYearChange(e.target.value)}
-              />
-            }
+            {<input {...register("finishYear")} disabled={isOngoing} />}
           </section>
 
           <section className={styles.EmployeeFormOngoing}>
@@ -267,7 +184,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 render={({ field: { value, onChange } }) => (
                   <Checkbox
                     checked={value}
-                    // defaultChecked={employee.isOngoing}
                     onChange={(e) => {
                       onChange(e.target.checked);
                       setIsOngoing(e.target.checked);
@@ -287,7 +203,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               render={({ field: { onChange, value } }) => (
                 <Radio.Group
                   value={value}
-                  // defaultValue={employee.workType}
                   onChange={(e) => onChange(e.target.value)}
                 >
                   <Space direction="vertical">
@@ -301,7 +216,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <h5>Hours Per Week</h5>
           {
             <input
-              // defaultValue={employee.hoursPerWeek}
               {...register("hoursPerWeek")}
               className={styles.EmployeeFormStatusHours}
             />

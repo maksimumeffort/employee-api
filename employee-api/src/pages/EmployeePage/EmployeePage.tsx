@@ -30,6 +30,9 @@ export const EmployeePage = () => {
       });
   }, []);
 
+  // const { startYear, startMonth, startDay } = data;
+  // [startYear, startMonth, startDay].join("-");
+
   const onSubmit = (data: any) => {
     axios
       .put(`http://localhost:8080/employees/${id}`, data)

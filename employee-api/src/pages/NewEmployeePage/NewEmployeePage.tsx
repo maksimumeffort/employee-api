@@ -4,7 +4,7 @@ import { EmployeeForm } from "../../components/EmployeeForm/EmployeeForm";
 import { DefaultValues } from "../../interfaces/DefaultValues";
 
 export const NewEmployeePage = () => {
-  const employeeInfo: any = [];
+  // const employeeInfo: any = [];
   let navigate = useNavigate();
   const goHome = () => {
     navigate("/");
