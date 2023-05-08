@@ -1,12 +1,10 @@
 import { useForm, Controller } from "react-hook-form";
 import { useEffect, useState } from "react";
-import { Select, Radio, Space, Checkbox } from "antd";
+import { Radio, Space, Checkbox } from "antd";
 import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSchema, FormInputs } from "../../interfaces/ValidationsAndTypes";
-
-const { Option } = Select;
 
 export const EmployeeForm = ({ employee, onSubmit }: any) => {
   const {
@@ -14,16 +12,12 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     control,
     handleSubmit,
     formState: { errors },
-    getValues,
+    setValue,
     reset,
   } = useForm<FormInputs>({
     defaultValues: employee,
     resolver: yupResolver(FormSchema),
   });
-
-  // date values and states
-
-  // console.log(employee);
 
   const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
   // const switchIsOngoing = (event: any) => {
@@ -187,6 +181,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                     onChange={(e) => {
                       onChange(e.target.checked);
                       setIsOngoing(e.target.checked);
+                      setValue("finishDay", "00");
+                      setValue("finishMonth", "00");
+                      setValue("finishYear", "00");
                     }}
                   />
                 )}

@@ -30,12 +30,12 @@ export const EmployeePage = () => {
       });
   }, []);
 
-  // const { startYear, startMonth, startDay } = data;
-  // [startYear, startMonth, startDay].join("-");
-
   const onSubmit = (data: any) => {
+    // const { startYear, startMonth, startDay } = data;
+    // [startYear, startMonth, startDay].join("-");
+    console.log(data, "before axios");
     axios
-      .put(`http://localhost:8080/employees/${id}`, data)
+      .post(`http://localhost:8080/employees/${id}`, data)
       .then((res) => {
         console.log(res.data);
         alert(`Employee ${res.data.name} successfully added to database`);
