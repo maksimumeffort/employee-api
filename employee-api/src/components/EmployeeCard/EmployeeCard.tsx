@@ -23,11 +23,12 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
   const finishDateArray = employee.finishDate?.split("-");
 
   const employeeStartDate: Date = new Date(
-    `${startDateArray[0]}-${startDateArray[1]}-${startDateArray[2]}
-    T10:20:30Z`
+    `${startDateArray[0]}-${startDateArray[1]}-${startDateArray[2]}T10:20:30Z`
   );
 
-  // console.log(employeeStartDate);
+  // console.log(
+  //   `${startDateArray[0]}-${startDateArray[1]}-${startDateArray[2]}T10:20:30Z`
+  // );
 
   const employeeFinishDate: Date = new Date(
     `${finishDateArray[0]}-${finishDateArray[1]}-${finishDateArray[2]}T10:20:30Z`
@@ -50,7 +51,7 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
           {employee.name} {employee.middleName} {employee.lastName}
         </h3>
         <p>
-          {employee.contractType} - {}yrs{" "}
+          {employee.contractType} - {lengthOfService}yrs{" "}
         </p>
         <p>{employee.email}</p>
       </section>

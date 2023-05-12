@@ -9,8 +9,6 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Id;
 
-import org.springframework.beans.factory.annotation.Value;
-
 
 @Entity
 public class Employee {
@@ -43,7 +41,6 @@ public class Employee {
     private LocalDate finishDate;
 
     @Column
-    // @Value("false")
     private Boolean isOngoing;
 
     @Column
@@ -172,11 +169,11 @@ public class Employee {
         this.finishDate = finishDate;
     }
 
-    public boolean isOngoing() {
+    public boolean getIsOngoing() {
         return isOngoing;
     }
 
-    public void setOngoing(boolean isOngoing) {
+    public void setIsOngoing(boolean isOngoing) {
         this.isOngoing = isOngoing;
     }
     

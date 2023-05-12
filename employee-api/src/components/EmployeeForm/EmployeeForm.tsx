@@ -5,6 +5,8 @@ import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSchema, FormInputs } from "../../interfaces/ValidationsAndTypes";
+import Control from "react-select/dist/declarations/src/components/Control";
+import { inputCSS } from "react-select/dist/declarations/src/components/Input";
 
 export const EmployeeForm = ({ employee, onSubmit }: any) => {
   const {
@@ -165,7 +167,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           }
           <p>{errors.contractType?.message}</p>
           <h5>Start date</h5>
-          {/* do I need validation for 31 February in this component? */}
+          {/* do I need validation for 31 February in this component? - Yes
+          TODO wrap these input fields in controller*/}
           <section>
             {
               <input
@@ -255,12 +258,27 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <p>{errors.finishYear?.message}</p>
 
           <section className={styles.EmployeeFormOngoing}>
+            {/* <Controller
+              control={control}
+              name="isOngoing"
+              render={({ field }) => (
+                <input
+                  type="checkbox"
+                  value={employee.isOngoing}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  // this only changes ongoing to true, doesn't let me reset isOngoing after
+                  // onChange={setIsOngoing()}
+                />
+              )}
+            /> */}
+
             {
               <input
                 type="checkbox"
+                // defaultChecked={employee.isOngoing}
                 {...register("isOngoing")}
-                // this only changes ongoing to true, doesn't let me reset isOngoing after
-                onChange={setIsOngoing}
+                // this only changes isOngoing to true, doesn't let me reset isOngoing after
+                // onChange={(e) => setIsOngoing(e.target.value)}
               />
             }
             <p>Ongoing</p>

@@ -189,7 +189,7 @@ public class EmployeeCreateDTO {
         return isOngoing;
     }
 
-    public void setOngoing(boolean isOngoing) {
+    public void setIsOngoing(boolean isOngoing) {
         this.isOngoing = isOngoing;
     }
 

@@ -76,7 +76,7 @@ public class EmployeeService {
         employeeToUpdate.setWorkType(data.getWorkType());
         employeeToUpdate.setStartDate(startDate);
         employeeToUpdate.setFinishDate(finishDate);
-        employeeToUpdate.setOngoing(data.getIsOngoing());
+        employeeToUpdate.setIsOngoing(data.getIsOngoing());
         employeeToUpdate.setEmail(data.getEmail());
         employeeToUpdate.setMobile(data.getMobile());
         employeeToUpdate.setAddress(data.getAddress());
