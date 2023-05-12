@@ -17,8 +17,6 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
 
   const todayDate = new Date();
 
-  // console.log(todayDate);
-
   const startDateArray = employee.startDate?.split("-");
   const finishDateArray = employee.finishDate?.split("-");
 
@@ -26,23 +24,18 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
     `${startDateArray[0]}-${startDateArray[1]}-${startDateArray[2]}T10:20:30Z`
   );
 
-  // console.log(
-  //   `${startDateArray[0]}-${startDateArray[1]}-${startDateArray[2]}T10:20:30Z`
-  // );
-
   const employeeFinishDate: Date = new Date(
     `${finishDateArray[0]}-${finishDateArray[1]}-${finishDateArray[2]}T10:20:30Z`
   );
 
-  const lengthOfServiceDiff = Math.abs(
-    employeeFinishDate.getTime() - employeeStartDate.getTime()
-  );
+  const lengthOfServiceDiff = employee.isOngoing
+    ? Math.abs(todayDate.getTime() - employeeStartDate.getTime())
+    : Math.abs(employeeFinishDate.getTime() - employeeStartDate.getTime());
+
   const lengthOfServiceDays = Math.ceil(
     lengthOfServiceDiff / (1000 * 3600 * 24)
   );
   const lengthOfService = (lengthOfServiceDays / 365).toFixed(1);
-
-  // console.log(lengthOfServiceDiff);
 
   return (
     <div className={styles.Card}>
@@ -51,7 +44,10 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
           {employee.name} {employee.middleName} {employee.lastName}
         </h3>
         <p>
-          {employee.contractType} - {lengthOfService}yrs{" "}
+          {employee.contractType} -{" "}
+          {+lengthOfService < 1
+            ? "Less than 1 year"
+            : lengthOfService + " years"}
         </p>
         <p>{employee.email}</p>
       </section>

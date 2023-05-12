@@ -5,6 +5,7 @@ export const DefaultValues = {
   startDay: "28",
   startMonth: "07",
   startYear: "2021",
+  startDate: "2021-07-28",
   email: "",
   mobile: "",
   address: "",
@@ -15,4 +16,5 @@ export const DefaultValues = {
   finishDay: "28",
   finishMonth: "07",
   finishYear: "2021",
+  finishDate: "2021-07-28",
 };

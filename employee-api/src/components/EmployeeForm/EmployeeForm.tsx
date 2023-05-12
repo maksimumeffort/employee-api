@@ -65,7 +65,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
   );
   var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
 
-  console.log(`Difference: ${(diffDays / 365).toFixed(1)} years`);
+  // console.log(`Difference: ${(diffDays / 365).toFixed(1)} years`);
 
   // start date can't be greater than today's date
 
@@ -168,46 +168,52 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <p>{errors.contractType?.message}</p>
           <h5>Start date</h5>
           {/* do I need validation for 31 February in this component? - Yes
-          TODO wrap these input fields in controller*/}
+          TODO wrap these input fields in controller
+          1. */}
           <section>
-            {
-              <input
-                type="number"
-                min="1"
-                max="31"
-                required
-                {...register("startDay")}
-              />
-            }
-            {
-              <select
-                required
-                {...register("startMonth")}
-                className={styles.DateSelect}
-              >
-                <option value="01">January</option>
-                <option value="02">February</option>
-                <option value="03">March</option>
-                <option value="04">April</option>
-                <option value="05">May</option>
-                <option value="06">June</option>
-                <option value="07">July</option>
-                <option value="08">August</option>
-                <option value="09">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-              </select>
-            }
-            {
-              <input
-                required
-                type="number"
-                min={thisYear - 100}
-                max={thisYear}
-                {...register("startYear")}
-              />
-            }
+            <Controller
+              control={control}
+              name="startDate"
+              render={({ field }) => (
+                <>
+                  <input
+                    type="number"
+                    min="1"
+                    max="31"
+                    required
+                    {...register("startDay")}
+                  />
+                  <select
+                    required
+                    {...register("startMonth")}
+                    className={styles.DateSelect}
+                  >
+                    <option value="01">January</option>
+                    <option value="02">February</option>
+                    <option value="03">March</option>
+                    <option value="04">April</option>
+                    <option value="05">May</option>
+                    <option value="06">June</option>
+                    <option value="07">July</option>
+                    <option value="08">August</option>
+                    <option value="09">September</option>
+                    <option value="10">October</option>
+                    <option value="11">November</option>
+                    <option value="12">December</option>
+                  </select>
+                  <input
+                    required
+                    type="number"
+                    min={thisYear - 100}
+                    max={thisYear}
+                    {...register("startYear")}
+                  />
+                </>
+                // todo1: get value for month
+                // todo2: check for leap year
+
+              )}
+            />
           </section>
           <p>{errors.startDay?.message}</p>
           <p>{errors.startMonth?.message}</p>

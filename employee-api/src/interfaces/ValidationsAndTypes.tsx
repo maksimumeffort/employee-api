@@ -35,6 +35,7 @@ export const FormSchema = yup.object().shape({
   startMonth: yup.string().required().oneOf(validMonths),
   startYear: yup.string().required().oneOf(validYears),
   finalDay: yup.string().optional().oneOf(validDays),
+  startDate: yup.string(),
   finalMonth: yup.string().optional().oneOf(validMonths),
   finalYear: yup.string().optional().oneOf(validYears),
   isOngoing: yup.boolean().required(),
@@ -61,6 +62,7 @@ export type FormInputs = {
   startDay: string | null;
   startMonth: string | null;
   startYear: string | null;
+  startDate: string;
   finishDay: string | null;
   finishMonth: string | null;
   finishYear: string | null;
