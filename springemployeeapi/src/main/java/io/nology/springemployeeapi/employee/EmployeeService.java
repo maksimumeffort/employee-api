@@ -58,8 +58,13 @@ public class EmployeeService {
             this.create(data);
         }
 
-        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
-        LocalDate finishDate = LocalDate.parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
+        LocalDate startDate = LocalDate
+                .parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        // Type mismatch: cannot convert from LocalDate to Optional<LocalDate>
+        LocalDate finishDate = LocalDate
+                .parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
+        
+        System.out.println(finishDate);
         
         Employee employeeToUpdate = maybeEmployee.get();
 

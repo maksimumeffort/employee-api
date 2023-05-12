@@ -1,6 +1,8 @@
 import * as yup from "yup";
 
-const thisYear = +new Date().toString().split(" ")[3];
+const todayDate = new Date();
+console.log(todayDate);
+const thisYear = +todayDate.toString().split(" ")[3];
 const range = (start: number, end: number) =>
   Array.from(Array(end - start + 1).keys()).map((x) => x + start);
 
@@ -16,7 +18,6 @@ const monthRange = Array.from(Array(12).keys()).map((x) => x + 1);
 const validMonths = monthRange.map((x) => {
   return x > 9 ? `${x}` : `0${x}`;
 });
-
 // valid years array
 const yearRange = range(thisYear - 100, thisYear);
 const validYears = yearRange.map((x) => `${x}`);

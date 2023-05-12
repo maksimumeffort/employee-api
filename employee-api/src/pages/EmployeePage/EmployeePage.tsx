@@ -31,8 +31,8 @@ export const EmployeePage = () => {
   }, []);
 
   const onSubmit = (data: any) => {
-    // const { startYear, startMonth, startDay } = data;
-    // [startYear, startMonth, startDay].join("-");
+    const { startYear, startMonth, startDay } = data;
+    [startYear, startMonth, startDay].join("-");
     console.log(data, "before axios");
     axios
       .post(`http://localhost:8080/employees/${id}`, data)
