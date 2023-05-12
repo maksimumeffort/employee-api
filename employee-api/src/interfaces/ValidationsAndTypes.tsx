@@ -1,13 +1,14 @@
 import * as yup from "yup";
 
-const todayDate = new Date();
-console.log(todayDate);
-const thisYear = +todayDate.toString().split(" ")[3];
+// phone number can start with 0, or with 3/2 and so on.
+const phoneRegExp = /^0?[2,3,4,7,8][0-9]{8}$/;
+
+export const todayDate = new Date();
+
+export const thisYear = +todayDate.toString().split(" ")[3];
 const range = (start: number, end: number) =>
   Array.from(Array(end - start + 1).keys()).map((x) => x + start);
 
-// phone number can start with 0, or with 3/2 and so on.
-const phoneRegExp = /^0?[2,3,4,7,8][0-9]{8}$/;
 // valid days array
 const dayRange = Array.from(Array(31).keys()).map((x) => x + 1);
 const validDays = dayRange.map((x) => {

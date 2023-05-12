@@ -5,8 +5,7 @@ import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSchema, FormInputs } from "../../interfaces/ValidationsAndTypes";
-import Control from "react-select/dist/declarations/src/components/Control";
-import { inputCSS } from "react-select/dist/declarations/src/components/Input";
+import { thisYear, todayDate } from "../../interfaces/ValidationsAndTypes";
 
 export const EmployeeForm = ({ employee, onSubmit }: any) => {
   const {
@@ -24,6 +23,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
 
   const [isOngoing, setIsOngoing] = useState(employee.isOngoing);
 
+  // useEffect to keep track of isOngoing
+
+  // localDate useEffect
   useEffect(() => {
     let copy = { ...employee };
     const [startYear, startMonth, startDay] =
@@ -43,10 +45,10 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
     reset(copy);
   }, [employee]);
 
+  // addressr Api useEffect
+
   //TODO4: check if date specified is after current date
   // compile date as object
-  const todayDate = new Date();
-  const thisYear = +todayDate.toString().split(" ")[3];
 
   const startDateProvided: Date = new Date(
     `${getValues("startYear")}-${getValues("startMonth")}-${getValues(
@@ -65,9 +67,8 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
   );
   var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
 
-  // console.log(`Difference: ${(diffDays / 365).toFixed(1)} years`);
-
   // start date can't be greater than today's date
+  // finish date can't be smaller than start date
 
   // console.log(!isNaN(finishDateProvided.getTime()));
   // should address be required?
@@ -123,15 +124,18 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <p>{errors.email?.message}</p>
           <h5>Mobile number</h5>
           <p>Must be an Australian number</p>
-          {/* <div>+61</div> */}
-          {
+          <div className={styles.EmployeeFormContactMobile}>
+            <div className={styles.EmployeeFormContactMobileDiv}>
+              <h5>+61</h5>
+            </div>
             <input
               type="tel"
               pattern="^0?[2,3,4,7,8][0-9]{8}$"
               {...register("mobile", { required: true })}
-              className={styles.EmployeeFormContactMobile}
+              className={styles.EmployeeFormContactMobileInput}
             />
-          }
+          </div>
+
           <p>{errors.mobile?.message}</p>
           <h5>Residential address</h5>
           <p>Start typing to search</p>
@@ -187,6 +191,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                     required
                     {...register("startMonth")}
                     className={styles.DateSelect}
+                    onChange={(e) => {
+                      console.log(e);
+                    }}
                   >
                     <option value="01">January</option>
                     <option value="02">February</option>
@@ -211,7 +218,6 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                 </>
                 // todo1: get value for month
                 // todo2: check for leap year
-
               )}
             />
           </section>
