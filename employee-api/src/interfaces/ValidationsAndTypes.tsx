@@ -23,6 +23,22 @@ const validMonths = monthRange.map((x) => {
 const yearRange = range(thisYear - 100, thisYear);
 const validYears = yearRange.map((x) => `${x}`);
 
+// months values
+export const monthValuesArray = [
+  "01",
+  "02",
+  "03",
+  "04",
+  "05",
+  "06",
+  "07",
+  "08",
+  "09",
+  "10",
+  "11",
+  "12",
+];
+
 // address validation using addressr (if code is 200 allow to proceed)
 // https://addressr.io/api-docs
 

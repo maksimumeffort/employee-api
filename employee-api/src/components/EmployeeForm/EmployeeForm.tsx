@@ -5,7 +5,11 @@ import { NavLink } from "react-router-dom";
 import styles from "./EmployeeForm.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormSchema, FormInputs } from "../../interfaces/ValidationsAndTypes";
-import { thisYear, todayDate } from "../../interfaces/ValidationsAndTypes";
+import {
+  thisYear,
+  todayDate,
+  monthValuesArray,
+} from "../../interfaces/ValidationsAndTypes";
 
 export const EmployeeForm = ({ employee, onSubmit }: any) => {
   const {
@@ -62,17 +66,43 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
   );
   // work out the period of service
 
-  var diff = Math.abs(
+  const diff = Math.abs(
     finishDateProvided.getTime() - startDateProvided.getTime()
   );
-  var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
-
-  // start date can't be greater than today's date
-  // finish date can't be smaller than start date
+  // var diffDays = Math.ceil(diff / (1000 * 3600 * 24));
+  //check if diffDays is minus -> show error
+  let isNegative = diff < 0;
 
   // console.log(!isNaN(finishDateProvided.getTime()));
   // should address be required?
   //TODO: listen to Calum
+
+  // check for leap year
+  const leapYear = (year: number) => {
+    return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
+  };
+
+  const [maxStartDays, setMaxStartDays] = useState(31);
+  const [maxFinishDays, setMaxFinishDays] = useState(31);
+
+  // build out the arrays of days for every month
+  const thirtyOneDayMonthsArray: number[] = [
+    1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1,
+  ];
+  const daysPerMonthsArray: number[] = thirtyOneDayMonthsArray.map((val) =>
+    val == 1 ? 31 : 30
+  );
+  daysPerMonthsArray[1] = 28;
+
+  const changeMaxDays = (type: string, input: string) => {
+    const value = input;
+    const valueAsIndex = monthValuesArray.findIndex((el) => el == value);
+    if (type == "start") {
+      setMaxStartDays(daysPerMonthsArray[valueAsIndex]);
+    } else {
+      setMaxFinishDays(daysPerMonthsArray[valueAsIndex]);
+    }
+  };
 
   return (
     <div>
@@ -183,7 +213,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                   <input
                     type="number"
                     min="1"
-                    max="31"
+                    max={maxStartDays}
                     required
                     {...register("startDay")}
                   />
@@ -192,7 +222,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                     {...register("startMonth")}
                     className={styles.DateSelect}
                     onChange={(e) => {
-                      console.log(e);
+                      changeMaxDays("start", e.target.value);
                     }}
                   >
                     <option value="01">January</option>
@@ -216,8 +246,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
                     {...register("startYear")}
                   />
                 </>
-                // todo1: get value for month
-                // todo2: check for leap year
+                // todo1: get value for month selected
+                // todo2: get available days for the month selected
+                // todo3: check for leap year
               )}
             />
           </section>
@@ -231,7 +262,7 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               <input
                 type="number"
                 min="1"
-                max="31"
+                max={maxFinishDays}
                 {...register("finishDay")}
                 disabled={isOngoing}
               />
@@ -240,6 +271,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
               <select
                 {...register("finishMonth")}
                 className={styles.DateSelect}
+                onChange={(e) => {
+                  changeMaxDays("finish", e.target.value);
+                }}
               >
                 <option value="01">January</option>
                 <option value="02">February</option>
@@ -268,6 +302,9 @@ export const EmployeeForm = ({ employee, onSubmit }: any) => {
           <p>{errors.finishDay?.message}</p>
           <p>{errors.finishMonth?.message}</p>
           <p>{errors.finishYear?.message}</p>
+          <p>
+            {isNegative ? "Start date cannot be later than Finish date" : ""}
+          </p>
 
           <section className={styles.EmployeeFormOngoing}>
             {/* <Controller
