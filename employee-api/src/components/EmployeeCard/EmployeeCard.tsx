@@ -1,7 +1,10 @@
 import axios from "axios";
+import { NavLink } from "react-router-dom";
+import styles from "./EmployeeCard.module.scss";
 
 export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
-  const handleDelete = () => {
+  const handleDelete = (event: any) => {
+    event.preventDefault();
     axios({
       method: "delete",
       url: `http://localhost:8080/employees/${employee.id}`,
@@ -12,11 +15,51 @@ export const EmployeeCard = ({ employee, setDeleteEmployee }: any) => {
     });
   };
 
+  const todayDate = new Date();
+
+  const startDateArray = employee.startDate?.split("-");
+  const finishDateArray = employee.finishDate?.split("-");
+
+  const employeeStartDate: Date = new Date(
+    `${startDateArray[0]}-${startDateArray[1]}-${startDateArray[2]}T10:20:30Z`
+  );
+
+  const employeeFinishDate: Date = new Date(
+    `${finishDateArray[0]}-${finishDateArray[1]}-${finishDateArray[2]}T10:20:30Z`
+  );
+
+  const lengthOfServiceDiff = employee.isOngoing
+    ? Math.abs(todayDate.getTime() - employeeStartDate.getTime())
+    : Math.abs(employeeFinishDate.getTime() - employeeStartDate.getTime());
+
+  const lengthOfServiceDays = Math.ceil(
+    lengthOfServiceDiff / (1000 * 3600 * 24)
+  );
+  const lengthOfService = (lengthOfServiceDays / 365).toFixed(1);
+
   return (
-    <div>
-      <h3>id: {employee.id}</h3>
-      <p>name: {employee.name}</p>
-      <a onClick={handleDelete}>Delete</a>
+    <div className={styles.Card}>
+      <section className={styles.InfoSection}>
+        <h3>
+          {employee.name} {employee.middleName} {employee.lastName}
+        </h3>
+        <p>
+          {employee.contractType} -{" "}
+          {+lengthOfService < 1
+            ? "Less than 1 year"
+            : lengthOfService + " years"}
+        </p>
+        <p>{employee.email}</p>
+      </section>
+
+      <section className={styles.LinksSection}>
+        <NavLink to={`/${employee.id}`} className={styles.LinksSectionEdit}>
+          Edit
+        </NavLink>
+        <a href="" onClick={handleDelete}>
+          Remove
+        </a>
+      </section>
     </div>
   );
 };

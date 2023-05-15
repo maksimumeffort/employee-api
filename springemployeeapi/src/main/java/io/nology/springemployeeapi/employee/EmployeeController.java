@@ -28,6 +28,7 @@ public class EmployeeController {
     @PostMapping
     public ResponseEntity<Employee> create(@RequestBody EmployeeCreateDTO data) {
         Employee createdEmployee = this.service.create(data);
+        // System.out.println("____________");
         return new ResponseEntity<>(createdEmployee, HttpStatus.CREATED);
     }
 
@@ -57,7 +58,14 @@ public class EmployeeController {
         if (isDeleted) {
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         }
-        
+
         return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+    }
+    
+    //update employee by id
+    @PostMapping("/{id}")
+    public ResponseEntity<Employee> update(@PathVariable Long id, @RequestBody EmployeeCreateDTO data) {
+        Employee updatedEmployee = this.service.update(id, data);
+        return new ResponseEntity<Employee>(updatedEmployee, HttpStatus.OK);
     }
 }

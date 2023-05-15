@@ -1,5 +1,6 @@
 package io.nology.springemployeeapi.employee;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +20,13 @@ public class EmployeeService {
 
     // create new employee
     public Employee create(EmployeeCreateDTO data) {
-        String cleanName = data.getName();
-        Employee newEmployee = new Employee(cleanName);
+        String cleanName = data.getName().toLowerCase();
+        
+        LocalDate startDate = LocalDate.parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        LocalDate finishDate = LocalDate.parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
+
+        Employee newEmployee = new Employee(cleanName, 
+        data.getMiddleName(), data.getLastName(), data.getContractType(), data.getWorkType(), startDate, finishDate, data.getIsOngoing(), data.getEmail(), data.getMobile(), data.getAddress(), data.getHoursPerWeek());
         this.repository.save(newEmployee);
         return newEmployee;
     }
@@ -43,6 +49,42 @@ public class EmployeeService {
         }
         this.repository.delete(maybeEmployee.get());
         return true;
+    }
+
+    // update specific employee by id
+    public Employee update(Long id, EmployeeCreateDTO data) {
+        Optional<Employee> maybeEmployee = this.getById(id);
+        if (maybeEmployee.isEmpty()) {
+            this.create(data);
+        }
+
+        LocalDate startDate = LocalDate
+                .parse(data.getStartYear() + "-" + data.getStartMonth() + "-" + data.getStartDay());
+        // Type mismatch: cannot convert from LocalDate to Optional<LocalDate>
+        LocalDate finishDate = LocalDate
+                .parse(data.getFinishYear() + "-" + data.getFinishMonth() + "-" + data.getFinishDay());
+        
+        System.out.println(finishDate);
+        
+        Employee employeeToUpdate = maybeEmployee.get();
+
+        // setting new values
+        employeeToUpdate.setName(data.getName());
+        employeeToUpdate.setMiddleName(data.getMiddleName());
+        employeeToUpdate.setLastName(data.getLastName());
+        employeeToUpdate.setContractType(data.getContractType());
+        employeeToUpdate.setWorkType(data.getWorkType());
+        employeeToUpdate.setStartDate(startDate);
+        employeeToUpdate.setFinishDate(finishDate);
+        employeeToUpdate.setIsOngoing(data.getIsOngoing());
+        employeeToUpdate.setEmail(data.getEmail());
+        employeeToUpdate.setMobile(data.getMobile());
+        employeeToUpdate.setAddress(data.getAddress());
+        employeeToUpdate.setHoursPerWeek(data.getHoursPerWeek());
+        
+        // saving new values
+        this.repository.save(employeeToUpdate);
+        return employeeToUpdate;
     }
 
 

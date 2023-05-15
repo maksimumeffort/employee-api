@@ -1,0 +1,112 @@
+.HeadingSection {
+  width: 100vw;
+  height: 300px;
+  background-color: rgb(247, 247, 247);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  & > * {
+    margin-left: 5%;
+    color: rgb(43, 47, 59);
+  }
+}
+
+.EmployeeForm {
+  margin-left: 5%;
+  & > * > input {
+    border: 2px solid grey;
+
+    border-radius: 4px;
+    line-height: 2.5;
+    // margin-bottom: 5px;
+    padding-left: 10px;
+  }
+  &Personal {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+  }
+  &Contact {
+    display: flex;
+    flex-direction: column;
+    &Email {
+      width: 350px;
+    }
+    &Mobile {
+      width: 200px;
+      position: relative;
+      &Div {
+        width: 40px;
+        text-align: center;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: grey;
+        border-radius: 4px 0 0 4px;
+        position: absolute;
+      }
+      &Input {
+        border: 2px solid grey;
+
+        border-radius: 4px;
+        line-height: 2.5;
+        // margin-bottom: 5px;
+        padding-left: 50px;
+      }
+    }
+    &Address {
+      width: 500px;
+    }
+  }
+  &Ongoing {
+    display: flex;
+    align-items: center;
+    width: 100px;
+    justify-content: space-around;
+  }
+  &Status {
+    display: flex;
+    flex-direction: column;
+    width: 310px;
+    &Hours {
+      width: 75px;
+    }
+    & > section {
+      display: flex;
+
+      & > input {
+        width: 70px;
+        line-height: 2.8;
+        border-radius: 4px;
+        border: 2px solid grey;
+        margin-right: 10px;
+      }
+    }
+  }
+  &Buttons {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    &Save {
+      background-color: rgb(45, 82, 153);
+      border: 2px solid rgb(45, 82, 153);
+      padding: 10px 50px;
+      color: white;
+    }
+    &Cancel {
+      border: 2px solid grey;
+      padding: 10px 50px;
+      & > a {
+        color: grey;
+      }
+    }
+  }
+}
+
+.DateSelect {
+  width: 150px;
+  border-radius: 4px;
+  border: 2px solid grey;
+  margin-right: 10px;
+}

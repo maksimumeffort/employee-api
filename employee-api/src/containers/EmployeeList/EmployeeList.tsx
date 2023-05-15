@@ -16,12 +16,13 @@ export const EmployeeList = () => {
       const json = JSON.parse(res.data);
       setEmployeesInDb(json);
     });
-  }, [deleteEmployee]);
+  }, [employeesInDb]);
 
   return (
     <>
       <div className={"styles"}>
         {employeesInDb.map((employee: any) => {
+          // console.log(employee);
           return (
             <EmployeeCard
               key={employee.id}
